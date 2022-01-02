@@ -111,6 +111,11 @@ const Button = styled.button`
     letter-spacing: 0.02rem;
     border-radius: 4px;
     border: none;
+
+    :hover {
+        background-color: #2D7264;
+        color: #E1E1E1;
+    }
 `
 
 const Signup = styled.div`
