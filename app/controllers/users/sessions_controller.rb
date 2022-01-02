@@ -1,9 +1,9 @@
-class Users::SessionsController < DeviseTokenAuth::RegistrationsController
-    protect_from_forgery with: :null_session
+class Users::SessionsController < DeviseTokenAuth::SessionsController
+    # protect_from_forgery with: :null_session
     
     def create
-        
 
-        render json: { data: current_user.confirmation_token, headers: response.headers }
-    end
+    #     super
+    #     render json: { data: @resource.errors }
+    # end
 end
