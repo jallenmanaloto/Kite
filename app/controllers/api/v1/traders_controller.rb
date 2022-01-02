@@ -86,6 +86,18 @@ module Api
                         end
                 end
             end
+
+            def edit_trader
+                @user = User.find(params[:user_id])
+                @trader = Trader.find(params[:id])
+
+                if @trader.update(trader_params)
+                    # @user.send_confirmation_instructions
+                    render json: { trader: @trader }
+                else
+                    render json: { errors: @trader.errors }
+                end
+            end
         
             def deposit_money
                 trader = Trader.find(params[:id])
@@ -111,7 +123,7 @@ module Api
             private
         
             def trader_params
-                params.permit(:name, :email)
+                params.require(:trader).permit(:name, :email)
             end
         end
     end
