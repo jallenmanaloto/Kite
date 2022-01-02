@@ -6,6 +6,7 @@ import MemberLogin from 'images/MemberLogin.jpg'
 import 'stylesheets/application.css'
 import axios from 'axios'
 import Request from '../../hooks/Request'
+import logo from 'images/logo.png'
 
 
 const LoginContainer = styled.div`
@@ -119,6 +120,7 @@ const Button = styled.button`
     color: #FFFFFF;
     text-align: center;
     text-decoration: none;
+    font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     font-weight: Bold;
     letter-spacing: 0.02rem;
