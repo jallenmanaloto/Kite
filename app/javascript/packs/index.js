@@ -4,8 +4,9 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import 'bootstrap/dist/css/bootstrap.css'
 import PropTypes from 'prop-types'
-import Login from './components/Login'
+import Login from './components/Login/Login'
 
 
 document.addEventListener('DOMContentLoaded', () => {
