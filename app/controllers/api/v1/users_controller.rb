@@ -1,7 +1,7 @@
 module Api
     module V1
         class UsersController < ApplicationController
-            before_action :authenticate_user!, except: [:create, :show, :edit, :current, :page]
+            before_action :authenticate_user!, except: [:create, :show, :edit, :current, :index, :page]
             respond_to :json
 
             def new
@@ -11,9 +11,8 @@ module Api
             end
 
             def index
-                # trader = Trader.all
-                # render json: { trader: trader }
-                render json: { user: current_user, stat: user_signed_in? }
+                trader = Trader.all
+                render json: { trader: trader }
             end
 
             def show
