@@ -16,3 +16,11 @@
 
  @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
  @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300;500&display=swap');
+
+.nav-dropdown a {
+    color: #3E3D3D;
+ }
+
+ .nav-dropdown a:hover {
+    color: #3E3D3D;
+ }
