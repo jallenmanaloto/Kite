@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import logo from '../../../../../assets/images/logo.png'
+import React, { useState, useContext, useEffect } from 'react'
+import AdminContext from '../../Contexts/AdminContext'
+import axios from 'axios'
 import styled from 'styled-components'
 import { Dashboard } from '@styled-icons/material-rounded'
 import { UserPlus } from '@styled-icons/boxicons-solid'
@@ -20,7 +21,7 @@ const LogoContainer = styled.div`
     position: relative;
 
     h1 {
-        margin-top: 0.7em;
+        margin-top: 0.1em;
         font-family: 'Righteous', cursive;
         font-size: 3.4em;
     }
@@ -41,7 +42,8 @@ const UserContainer = styled.div`
 
     h4 {
         font-size: 0.8rem;
-        margin-left: 1rem;
+        margin-left: 0.5rem;
+        margin-top: 0.1rem;
     }
 `
 
@@ -64,11 +66,15 @@ const NavigationsContainer = styled.div`
 const DashboardNavContainer = styled.div`
     display: flex; 
     align-items: center;
+    height: 3.5em;
     width: 100%;
+    line-height: 3.5em;
+
     :hover {
-        background-color: #E8EDEC;
+        background-color: rgba(31, 140, 118, 0.08);
     }
 `
+
 const CreateUserContainer = styled(DashboardNavContainer)`
 `
 
@@ -77,7 +83,7 @@ const DashboardNav = styled.h3`
     font-weight: 400;
     width: 100%;
     height: 3rem;
-    line-height: 3rem;
+    line-height: 3.5rem;
     cursor: pointer;
     color: ${props => props.active ? '#00C29B' : '#989898'};
     
@@ -103,21 +109,41 @@ const Logout = styled.div`
     font-family: 'Roboto', sans-serif;
     letter-spacing: 0.5px;
     cursor: pointer;
+
+    :hover {
+        background-color: #2D7264;
+        color: #E1E1E1;
+    }
 `
 
 const Navbar = () => {
 
-    const [dashboard, setDashboard] = useState(true)
     const [createUser, setCreateUser] = useState(false)
+    const [dashboard, setDashboard] = useState(true)
+    const { setAdminDashboard, refresh, setRefresh, setTraders, traders } = useContext(AdminContext)
 
+    useEffect(() => {
+        const axios = require('axios')
+        axios({
+            method: 'get',
+            url: 'http://localhost:3000/api/v1/users'
+        })
+        .then((res) => {
+            setTraders(res.data.trader)
+        })
+        .catch(err => console.log(err))
+    },[traders.length, refresh])
+    
     const handleDashboard = () => {
         setDashboard(true)
         setCreateUser(false)
+        setAdminDashboard(true)
     }
 
     const handleCreateUser = () => {
         setCreateUser(true)
         setDashboard(false)
+        setAdminDashboard(false)
     }
 
     return (
@@ -132,9 +158,10 @@ const Navbar = () => {
             <Line />
             <NavigationsContainer className='navigations'>
                 <DashboardNavContainer>
-                    <Dashboard style={{
+                    <Dashboard className="dashboard-symbol" style={{
                         color: `${dashboard ? '#00C29B' : '#989898'}`,
                         height: '1.8rem',
+                        marginTop: '0.4rem',
                         marginBottom: '0.5rem',
                         paddingRight: '0.4rem',
                         marginLeft: '4em'
@@ -145,11 +172,12 @@ const Navbar = () => {
                     <UserPlus style={{
                         color: `${createUser ? '#00C29B' : '#989898'}`,
                         height: '2.1rem',
+                        marginTop: '0.4rem',
                         marginBottom: '0.5rem',
                         paddingRight: '0.2rem',
                         marginLeft: '4em'
                     }} />
-                    <CreateUserNav active={createUser} onClick={handleCreateUser}>Create user</CreateUserNav>
+                    <CreateUserNav className="dashboard-text" active={createUser} onClick={handleCreateUser}>Create user</CreateUserNav>
                 </CreateUserContainer>
             </NavigationsContainer>
             <Logout >Logout</Logout>
