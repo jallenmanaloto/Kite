@@ -5,13 +5,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css'
-import PropTypes from 'prop-types'
-import Login from './components/Login/Login'
-
+import Authenticate from './components/Login/Authenticate'
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Login />,
+    <Authenticate />,
     document.body.appendChild(document.createElement('div')),
   )
 })
