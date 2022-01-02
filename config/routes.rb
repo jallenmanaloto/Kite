@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   root to: 'api/v1/users#page'
   get 'index', to: 'markets#index'
   get 'search', to: 'markets#search'
- 
+  get '/all_traders', to: 'api/v1/users#all_traders'
+  # patch '/:user_id/:id/edit_trader', to: 'api/v1/admins#edit_trader'
 
   namespace :api do
     namespace :v1 do
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
           patch :buy_stock, on: :member
           patch :sell_stock, on: :member
           patch :deposit_money, on: :member
+          patch :edit_trader, on: :member
           resources :histories
           resources :stocks do
             get :sell_stock, on: :member
