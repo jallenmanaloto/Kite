@@ -6,10 +6,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import Authenticate from './components/Login/Authenticate'
+import Admin from './components/Dashboard/Admin/Admin'
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Authenticate />,
+    <Admin />,
     document.body.appendChild(document.createElement('div')),
   )
 })
