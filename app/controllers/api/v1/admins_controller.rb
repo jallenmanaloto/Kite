@@ -7,7 +7,7 @@ module Api
                 @trader = Trader.find(params[:user_id])
 
                 if @trader.update(status: "true")
-                    @user.send_confirmation_instructions
+                    # @user.send_confirmation_instructions
                     render json: {user: @user, trader: @trader}
                 else
                     render json: { errors: @trader.errors }
