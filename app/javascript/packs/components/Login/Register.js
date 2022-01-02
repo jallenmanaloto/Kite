@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form'
 import MemberLogin from 'images/MemberLogin.jpg'
 import 'stylesheets/application.css'
 import axios from 'axios'
-import Request from '../../hooks/Request'
 
 
 const LoginContainer = styled.div`
@@ -25,7 +24,7 @@ const FormContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 60vh;
+    height: 67vh;
     width: 500px;
     box-shadow: 7px 8px 29px 6px rgba(0,0,0,0.38);
     border-radius: 16px;
@@ -41,7 +40,6 @@ const FormComp = styled.form`
     height: 80%;
     width: 100%;
     z-index: 10;
-    padding-top: 4em;
 `
 
 const Brand = styled.h1`
@@ -55,20 +53,8 @@ const Brand = styled.h1`
     letter-spacing: 0.1em;
 `
 
-const AdminLink = styled.h3`
-    position: absolute;
-    right: -14em;
-    top: 2em;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    color: #1F8C76;
-    text-decoration: underline;
-`
-
 const Signin = styled.h1`
-    margin-bottom: 10em;
+    margin-bottom: 13em;
     position: absolute;
     color: #3E3D3D;
     font-family: 'Roboto', sans-serif;
@@ -128,12 +114,10 @@ const Button = styled.button`
 
 const Signup = styled.div`
     display: flex;
-    width: 20%;
-    height: 2rem;
     align-items: center;
     position: absolute;
     z-index: 10;
-    margin-top: 33%;
+    margin-top: 38%;
 `
 
 const SignupText = styled.h5`
@@ -141,6 +125,7 @@ const SignupText = styled.h5`
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
     padding-top: 0.4rem;
+    padding-right: 0.3rem;
 `
 
 const BgImage = styled.img`
@@ -155,16 +140,12 @@ const ImageContainer = styled.div`
     z-index: 1;
 `
 
-const Login = () => {
+const Register = () => {
 
     const axios = require('axios');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState({});
-    const userDetails = {
-        email: email,
-        password: password
-    }
 
     const handleEmail = (e) => {
         setEmail(e.target.value)
@@ -182,23 +163,23 @@ const Login = () => {
         e.preventDefault()
         axios({
             method: 'post',
-            url: 'http://localhost:3000/auth/sign_in',
+            url: 'http://localhost:3000/auth',
             data: {
                 email: email,
                 password: password
             }
         })
             .then((res) => {
-                const { "access-token": token } = res.headers
-                setUser({
-                    email: res.data.data.email,
-                    id: res.data.data.id,
-                    name: res.data.data.name,
-                    client: res.headers.client,
-                    access_token: token,
-                    expiry: res.headers.expiry,
-                    uid: res.headers.uid
-                })
+                // const { "access-token": token } = res.headers
+                // setUser({
+                //     email: res.data.data.email,
+                //     id: res.data.data.id,
+                //     name: res.data.data.name,
+                //     client: res.headers.client,
+                //     access_token: token,
+                //     expiry: res.headers.expiry,
+                //     uid: res.headers.uid
+                // })
                 console.log(res)
             })
             .catch(err => console.log(err))
@@ -210,28 +191,16 @@ const Login = () => {
                 <BgImage src={MemberLogin} alt="background-picture" />
             </ImageContainer>
             <Brand className='brand'>kite</Brand>
-            <Link
-                to="admin-login"
-                style={{
-                    position: "absolute",
-                    right: "-14em",
-                    top: "2em",
-                    fontFamily: "Roboto, sans-serif",
-                    fontSize: "0.9rem",
-                    fontWeight: "500",
-                    cursor: "pointer",
-                    color: "#1F8C76",
-                    textDecoration: "underline"
-                }}
-            >
-                Admins login here
-            </Link>
             <FormContainer className='loginFormContainer'>
-                <Signin>Sign in</Signin>
-                <FormComp onSubmit={handleSignIn} className='loginForm' action="">
+                <Signin>Sign up</Signin>
+                <FormComp className='loginForm' action="">
                     <Field>
                         <Label htmlFor="">Email</Label>
                         <Textfield onChange={handleEmail} value={email} type="email" name="email" id="" />
+                    </Field>
+                    <Field>
+                        <Label htmlFor="">Name</Label>
+                        <Textfield type="text" name="name" id="" />
                     </Field>
                     <Field>
                         <Label htmlFor="">Password</Label>
@@ -248,21 +217,21 @@ const Login = () => {
                 </FormComp>
             </FormContainer>
             <Signup>
-                <SignupText style={{ paddingRight: '0.4rem' }}>Don't have a Kite account?</SignupText>
-                <Link
-                    to="register"
-                    style={{
-                        color: '#1F8C76',
-                        fontWeight: '500',
+                <SignupText>Already have a Kite account?</SignupText>
+                <Link 
+                    to="/"
+                    style={{ 
+                        color: '#1F8C76', 
+                        fontWeight: '500', 
                         cursor: 'pointer',
                         fontSize: '1rem',
                         fontFamily: 'Roboto, sans-serif',
                         textDecoration: 'none',
-                    }}>Sign up
+                    }}>Login
                 </Link>
             </Signup>
         </LoginContainer>
     )
 }
 
-export default Login
+export default Register

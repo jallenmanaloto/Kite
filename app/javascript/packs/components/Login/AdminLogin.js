@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
-import MemberLogin from 'images/MemberLogin.jpg'
+import Admin from 'images/Admin.jpg'
 import 'stylesheets/application.css'
 import axios from 'axios'
-import Request from '../../hooks/Request'
 
 
 const LoginContainer = styled.div`
@@ -53,18 +52,6 @@ const Brand = styled.h1`
     z-index: 10;
     font-family: 'Righteous', cursive;
     letter-spacing: 0.1em;
-`
-
-const AdminLink = styled.h3`
-    position: absolute;
-    right: -14em;
-    top: 2em;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    color: #1F8C76;
-    text-decoration: underline;
 `
 
 const Signin = styled.h1`
@@ -128,8 +115,6 @@ const Button = styled.button`
 
 const Signup = styled.div`
     display: flex;
-    width: 20%;
-    height: 2rem;
     align-items: center;
     position: absolute;
     z-index: 10;
@@ -141,13 +126,14 @@ const SignupText = styled.h5`
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
     padding-top: 0.4rem;
+    padding-right: 0.3rem;
 `
 
 const BgImage = styled.img`
-    height: 75vh;
-    width: 62vw;
-    border-radius: 155px;
-    opacity: 10%;
+    height: 72vh;
+    width: 37vw;
+    border-radius: 102px;
+    opacity: 18%;
 `
 
 const ImageContainer = styled.div`
@@ -155,16 +141,12 @@ const ImageContainer = styled.div`
     z-index: 1;
 `
 
-const Login = () => {
+const AdminLogin = () => {
 
     const axios = require('axios');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState({});
-    const userDetails = {
-        email: email,
-        password: password
-    }
 
     const handleEmail = (e) => {
         setEmail(e.target.value)
@@ -199,7 +181,7 @@ const Login = () => {
                     expiry: res.headers.expiry,
                     uid: res.headers.uid
                 })
-                console.log(res)
+
             })
             .catch(err => console.log(err))
     }
@@ -207,28 +189,12 @@ const Login = () => {
     return (
         <LoginContainer className='container'>
             <ImageContainer>
-                <BgImage src={MemberLogin} alt="background-picture" />
+                <BgImage src={Admin} alt="background-picture" />
             </ImageContainer>
             <Brand className='brand'>kite</Brand>
-            <Link
-                to="admin-login"
-                style={{
-                    position: "absolute",
-                    right: "-14em",
-                    top: "2em",
-                    fontFamily: "Roboto, sans-serif",
-                    fontSize: "0.9rem",
-                    fontWeight: "500",
-                    cursor: "pointer",
-                    color: "#1F8C76",
-                    textDecoration: "underline"
-                }}
-            >
-                Admins login here
-            </Link>
             <FormContainer className='loginFormContainer'>
-                <Signin>Sign in</Signin>
-                <FormComp onSubmit={handleSignIn} className='loginForm' action="">
+                <Signin>Admin Sign in</Signin>
+                <FormComp className='loginForm' action="">
                     <Field>
                         <Label htmlFor="">Email</Label>
                         <Textfield onChange={handleEmail} value={email} type="email" name="email" id="" />
@@ -248,21 +214,22 @@ const Login = () => {
                 </FormComp>
             </FormContainer>
             <Signup>
-                <SignupText style={{ paddingRight: '0.4rem' }}>Don't have a Kite account?</SignupText>
-                <Link
-                    to="register"
-                    style={{
-                        color: '#1F8C76',
-                        fontWeight: '500',
+                <SignupText>Kite members login</SignupText>
+                <Link 
+                    to="/"
+                    style={{ 
+                        color: '#1F8C76', 
+                        fontWeight: '500', 
                         cursor: 'pointer',
                         fontSize: '1rem',
                         fontFamily: 'Roboto, sans-serif',
                         textDecoration: 'none',
-                    }}>Sign up
+                    }}>here
                 </Link>
             </Signup>
         </LoginContainer>
     )
 }
 
-export default Login
+export default AdminLogin
+
