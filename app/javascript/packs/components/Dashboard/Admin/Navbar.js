@@ -149,7 +149,7 @@ const Navbar = () => {
     return (
         <NavWrapper>
             <LogoContainer>
-                <h1 className='logo-name'>Kite</h1>
+                <h1 className='logo-name'>kite</h1>
             </LogoContainer>
             <UserContainer className='name-container'>
                 <h2 className='admin-name'>Admin01</h2>
