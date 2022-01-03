@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AdminContext from '../../Contexts/AdminContext'
 import Auth from '../../Contexts/Auth'
 import axios from 'axios'
@@ -70,10 +71,6 @@ const DashboardNavContainer = styled.div`
     height: 3.5em;
     width: 100%;
     line-height: 3.5em;
-
-    :hover {
-        background-color: rgba(31, 140, 118, 0.08);
-    }
 `
 
 const CreateUserContainer = styled(DashboardNavContainer)`
@@ -86,7 +83,10 @@ const DashboardNav = styled.h3`
     height: 3rem;
     line-height: 3.5rem;
     cursor: pointer;
-    color: ${props => props.active ? '#00C29B' : '#989898'};
+    color: ${props => props.active ? '#1F8C76' : '#989898'};
+    :hover {
+        color: #1F8C76;
+    }
     
 `
 
@@ -117,13 +117,14 @@ const Logout = styled.div`
     }
 `
 
-const Navbar = (headers) => {
+const Navbar = () => {
 
     const [createUser, setCreateUser] = useState(false)
     const [dashboard, setDashboard] = useState(true)
     const { setAdminDashboard, refresh, setRefresh, setTraders, traders } = useContext(AdminContext)
     const {currentUser, setCurrentUser} = useContext(Auth)
     const axios = require('axios')
+    const navigate = useNavigate()
 
     useEffect(() => {
         axios({
@@ -160,8 +161,11 @@ const Navbar = (headers) => {
         })
         .then((res) => {
             console.log(res)
+            navigate('/admin')
         }) 
-        .catch(err => console.log(err))
+        .catch((err) => {
+            navigate('/')
+        })
     }
 
     return (
@@ -177,7 +181,7 @@ const Navbar = (headers) => {
             <NavigationsContainer className='navigations'>
                 <DashboardNavContainer>
                     <Dashboard className="dashboard-symbol" style={{
-                        color: `${dashboard ? '#00C29B' : '#989898'}`,
+                        color: `${dashboard ? '#1F8C76' : '#989898'}`,
                         height: '1.8rem',
                         marginTop: '0.4rem',
                         marginBottom: '0.5rem',
@@ -187,8 +191,8 @@ const Navbar = (headers) => {
                     <DashboardNav active={dashboard} onClick={handleDashboard}>Dashboard</DashboardNav>
                 </DashboardNavContainer>
                 <CreateUserContainer>
-                    <UserPlus style={{
-                        color: `${createUser ? '#00C29B' : '#989898'}`,
+                    <UserPlus className="user-symbol" style={{
+                        color: `${createUser ? '#1F8C76' : '#989898'}`,
                         height: '2.1rem',
                         marginTop: '0.4rem',
                         marginBottom: '0.5rem',
