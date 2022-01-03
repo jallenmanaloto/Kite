@@ -162,7 +162,7 @@ const ImageContainer = styled.div`
     z-index: 1;
 `
 
-const Login = () => {
+const Login = (setHeaders) => {
 
     const axios = require('axios');
     const [email, setEmail] = useState('');
@@ -197,7 +197,7 @@ const Login = () => {
         })
             .then((res) => {
                 const { "access-token": token } = res.headers
-                setUser({
+                setHeaders({
                     email: res.data.data.email,
                     id: res.data.data.id,
                     name: res.data.data.name,
@@ -218,7 +218,7 @@ const Login = () => {
             </ImageContainer>
             <Brand className='brand'>kite</Brand>
             <Link
-                to="admin-login"
+                to="admin"
                 style={{
                     position: "absolute",
                     right: "-14em",
