@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react'
 import AdminContext from '../../Contexts/AdminContext'
 import Auth from '../../Contexts/Auth'
+import CreateUser from './CreateUser'
 import Navbar from './Navbar'
 import Header from './Header'
 import Traders from './Traders'
 import TraderDetails from './TraderDetails'
+
 
 const Admin = () => {
     const [adminDashboard, setAdminDashboard] = useState(true);
@@ -19,7 +21,6 @@ const Admin = () => {
         totalCash: null
     })
     const {currentUser, setCurrentUser} = useContext(Auth)
-    console.log(currentUser)
     return (
         <div style={{backgroundColor: '#F2F2F2'}}>
             <AdminContext.Provider value={{adminDashboard, setAdminDashboard, refresh, setRefresh, traders, setTraders, viewTrader, setViewTrader}}>
