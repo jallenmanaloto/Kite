@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import AdminContext from '../../Contexts/AdminContext'
+import Auth from '../../Contexts/Auth'
 import axios from 'axios'
 import styled from 'styled-components'
 import { Dashboard } from '@styled-icons/material-rounded'
@@ -116,14 +117,15 @@ const Logout = styled.div`
     }
 `
 
-const Navbar = () => {
+const Navbar = (headers) => {
 
     const [createUser, setCreateUser] = useState(false)
     const [dashboard, setDashboard] = useState(true)
     const { setAdminDashboard, refresh, setRefresh, setTraders, traders } = useContext(AdminContext)
+    const {currentUser, setCurrentUser} = useContext(Auth)
+    const axios = require('axios')
 
     useEffect(() => {
-        const axios = require('axios')
         axios({
             method: 'get',
             url: 'http://localhost:3000/api/v1/users'
@@ -144,6 +146,22 @@ const Navbar = () => {
         setCreateUser(true)
         setDashboard(false)
         setAdminDashboard(false)
+    }
+
+    const handleLogout = () => {
+        axios({
+            method: 'delete',
+            url: 'http://localhost:3000/auth/sign_out',
+            params: {
+                "access-token": currentUser.access_token,
+                client: currentUser.client,
+                uid: currentUser.uid
+            }
+        })
+        .then((res) => {
+            console.log(res)
+        }) 
+        .catch(err => console.log(err))
     }
 
     return (
@@ -180,7 +198,7 @@ const Navbar = () => {
                     <CreateUserNav className="dashboard-text" active={createUser} onClick={handleCreateUser}>Create user</CreateUserNav>
                 </CreateUserContainer>
             </NavigationsContainer>
-            <Logout >Logout</Logout>
+            <Logout onClick={handleLogout}>Logout</Logout>
         </NavWrapper>
     )
 }
