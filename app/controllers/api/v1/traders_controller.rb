@@ -123,7 +123,7 @@ module Api
             private
         
             def trader_params
-                params.require(:trader).permit(:name, :email)
+                params.permit(:name, :email, :user_id, :id)
             end
         end
     end
