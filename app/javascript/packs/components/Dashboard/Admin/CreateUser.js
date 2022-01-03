@@ -138,10 +138,12 @@ const CreateUser = () => {
             method: 'post',
             url: 'http://localhost:3000/auth',
             data: {
-                name: userName,
-                email: userEmail,
-                password: userPassword,
-                nickname: userNickname
+                user: {
+                    name: userName,
+                    email: userEmail,
+                    password: userPassword,
+                    nickname: userNickname
+                }
             }
         })
             .then((res) => {
