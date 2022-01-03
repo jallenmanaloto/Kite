@@ -4,6 +4,7 @@ import Auth from './Contexts/Auth'
 
 const Page = () => {
     const [currentUser, setCurrentUser] = useState({})
+    
     return (
         <div>
             <Auth.Provider value={{ currentUser, setCurrentUser }}>
