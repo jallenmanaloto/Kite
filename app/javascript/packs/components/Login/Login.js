@@ -242,7 +242,7 @@ const Login = (setHeaders) => {
                     </Field>
                     <Field>
                         <Label htmlFor="">Password</Label>
-                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="text" name="password" id="" />
+                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="" />
                     </Field>
                     <Options>
                         <Form>
