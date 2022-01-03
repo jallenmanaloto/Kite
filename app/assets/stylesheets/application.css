@@ -25,10 +25,18 @@
     color: #3E3D3D;
  }
 
- .sc-iJKOTD.eHIlMY:hover > .StyledIconBase-ea9ulj-0.bsimgx.dashboard-symbol {
+ .sc-iJKOTD.dXAwZC:hover > .StyledIconBase-ea9ulj-0.bsimgx.dashboard-symbol {
     fill: #1F8C76;
+}
+
+.sc-iJKOTD.dXAwZC:hover >.sc-ezbkAF.eGGtDn {
+   color: #1F8C76;
  }
 
- .sc-iJKOTD.sc-giYglK.eHIlMY.griMtK:hover > .StyledIconBase-ea9ulj-0.bsimgx.user-symbol{
+ .sc-iJKOTD.sc-giYglK.dXAwZC.griMtK:hover > .StyledIconBase-ea9ulj-0.bsimgx.user-symbol {
    fill: #1F8C76;
+ }
+
+ .sc-iJKOTD.sc-giYglK.dXAwZC.griMtK:hover > .sc-ezbkAF.sc-bYoBSM.ivXZQv.PfRvH.dashboard-text {
+   color: #1F8C76; 
  }
