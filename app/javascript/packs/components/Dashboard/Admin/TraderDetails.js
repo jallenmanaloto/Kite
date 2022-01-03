@@ -30,7 +30,7 @@ const TraderDetails = () => {
     const saveDetail = () => {
         axios({
             method: 'patch',
-            url: 'http://localhost:3000/api/v1/users/10/traders/6/edit_trader',
+            url: `http://localhost:3000/api/v1/users/${viewTrader.id - 1}/traders/${viewTrader.id}/edit_trader`,
             data: {
                 name: traderName
             }
