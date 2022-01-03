@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import AdminContext from '../../Contexts/AdminContext'
 import axios from 'axios'
 import styled from 'styled-components'
 import Form from 'react-bootstrap/Form'
@@ -107,6 +108,9 @@ const CreateUser = () => {
     let today = new Date()
     let current = `${monthNames[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`
 
+    // Setting context for refresh
+    const { refresh, setRefresh } = useContext(AdminContext)
+
     // Declaring states
     const [checked, setChecked] = useState(false)
     const [userName, setUserName] = useState('');
@@ -147,7 +151,7 @@ const CreateUser = () => {
             }
         })
             .then((res) => {
-                console.log(res)
+                setRefresh(refresh + 1)
             })
             .catch(err => console.log(err))
     }
