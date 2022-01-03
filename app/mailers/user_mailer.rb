@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
         email = user.email.to_s
         token = user.confirmation_token
         mail(
-            from: "support@project.com",
+            from: "support@kite.com",
             to: email, 
             subject: "Pending Account",
         )
