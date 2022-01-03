@@ -24,13 +24,24 @@ const TableWrapper = styled.div`
 
 const TableHeaderData = styled.th`
     text-align: center;
-    color: #3E3D3D;
+    color: white;
     font-weight: 400;
 `
 
 const TableBodyData = styled.td`
     text-align: center;
     font-weight: 200;
+`
+
+const ActivateButton = styled.button`
+    background-color: #1F8C76;
+    color: #FFFFFF;
+    border: none;
+    font-family;
+    font-family: 'Roboto', sans-serif;
+    height: 2.2rem;
+    width: 6.1em;
+    border-radius: 4px;
 `
 
 const Traders = () => {
@@ -73,14 +84,13 @@ const Traders = () => {
         
         return(
             <tr key={trader.id} onClick={getTrader}>
-                {/* <TableBodyData>{trader.id}</TableBodyData> */}
                 <TableBodyData>{trader.name}</TableBodyData>
                 <TableBodyData>{trader.email}</TableBodyData>
                 <TableBodyData>{trader.total_cash}</TableBodyData>
                 <TableBodyData>
                     {isApproved(trader.status) ? 'Active' : 'Pending'}
                     </TableBodyData>
-                <TableBodyData>{isApproved(trader.status) ? 'Approved' : <button onClick={approveTrader}>Approve</button>}</TableBodyData>
+                <TableBodyData>{isApproved(trader.status) ? 'Approved' : <ActivateButton onClick={approveTrader}>Activate</ActivateButton>}</TableBodyData>
             </tr>
         )
     })
@@ -88,9 +98,9 @@ const Traders = () => {
     return (
         <div>
             <Subject>List of traders</Subject>
-            <TableWrapper>
+            <TableWrapper bordered>
                 <Table hover>
-                    <thead>
+                    <thead style={{backgroundColor: '#52545B'}}>
                         <tr>
                             {/* <TableHeaderData>ID</TableHeaderData> */}
                             <TableHeaderData>Name</TableHeaderData>
