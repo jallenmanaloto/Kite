@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
-  validates :name, length: { minimum: 5, maximum: 20 }
-  validates_presence_of :email, :password
+  # validates :name, length: { minimum: 5, maximum: 20 }
+  # validates_presence_of :email, :password
 
   # before_action :skipping_confirm
 
