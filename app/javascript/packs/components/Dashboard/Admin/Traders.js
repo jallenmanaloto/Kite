@@ -57,8 +57,6 @@ const Traders = () => {
         }
     }
 
-    console.log(viewTrader)
-    
     const tradersList = traders.map(trader => {
         const approveTrader = () => {
             axios({
@@ -102,7 +100,6 @@ const Traders = () => {
                 <Table hover>
                     <thead style={{backgroundColor: '#52545B'}}>
                         <tr>
-                            {/* <TableHeaderData>ID</TableHeaderData> */}
                             <TableHeaderData>Name</TableHeaderData>
                             <TableHeaderData>Email</TableHeaderData>
                             <TableHeaderData>Total Cash</TableHeaderData>
