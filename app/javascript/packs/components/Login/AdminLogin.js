@@ -191,7 +191,7 @@ const AdminLogin = () => {
                     uid: res.headers.uid
                 })
                 
-                navigate('/admin-dashboard', { replace: true })
+                navigate('/admin/dashboard', { replace: true })
             })
             .catch(err => console.log(err))
     }
