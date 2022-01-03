@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form'
 import MemberLogin from 'images/MemberLogin.jpg'
 import 'stylesheets/application.css'
 import axios from 'axios'
-import Request from '../../hooks/Request'
 import logo from 'images/logo.png'
 
 
