@@ -1,5 +1,6 @@
 class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
     protect_from_forgery with: :null_session
+    skip_before_action :verify_authenticity_token
     def create
         user = User.new(sign_up_params)
         if user.save
@@ -22,6 +23,6 @@ class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
     private
 
     def sign_up_params
-        params.permit(:name, :email, :password, :nickname)
+        params.require(:user).permit(:name, :email, :password, :nickname)
     end
 end
