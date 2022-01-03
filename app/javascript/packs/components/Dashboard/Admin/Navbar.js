@@ -71,6 +71,9 @@ const DashboardNavContainer = styled.div`
     height: 3.5em;
     width: 100%;
     line-height: 3.5em;
+    :hover {
+        color: #1F8C76;
+    }
 `
 
 const CreateUserContainer = styled(DashboardNavContainer)`
@@ -84,10 +87,6 @@ const DashboardNav = styled.h3`
     line-height: 3.5rem;
     cursor: pointer;
     color: ${props => props.active ? '#1F8C76' : '#989898'};
-    :hover {
-        color: #1F8C76;
-    }
-    
 `
 
 const CreateUserNav = styled(DashboardNav)`
