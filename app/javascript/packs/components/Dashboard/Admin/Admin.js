@@ -4,6 +4,7 @@ import Navbar from './Navbar'
 import Header from './Header'
 import Traders from './Traders'
 import TraderDetails from './TraderDetails'
+import CreateUser from './CreateUser'
 
 
 const Admin = () => {
@@ -24,7 +25,7 @@ const Admin = () => {
             <AdminContext.Provider value={{adminDashboard, setAdminDashboard, refresh, setRefresh, traders, setTraders, viewTrader, setViewTrader}}>
                 <Navbar />
                 <Header />
-                {adminDashboard ? <Traders /> : null }
+                {adminDashboard ? <Traders /> : <CreateUser /> }
                 <TraderDetails />
             </AdminContext.Provider>
         </div>
