@@ -42,6 +42,11 @@ const ActivateButton = styled.button`
     height: 2.2rem;
     width: 6.1em;
     border-radius: 4px;
+
+    :hover {
+        background-color: #2D7264;
+        color: #E1E1E1;
+    }
 `
 
 const Traders = () => {
@@ -82,13 +87,13 @@ const Traders = () => {
         
         return(
             <tr key={trader.id} onClick={getTrader}>
-                <TableBodyData>{trader.name}</TableBodyData>
-                <TableBodyData>{trader.email}</TableBodyData>
-                <TableBodyData>{trader.total_cash}</TableBodyData>
-                <TableBodyData>
+                <TableBodyData >{trader.name}</TableBodyData>
+                <TableBodyData >{trader.email}</TableBodyData>
+                <TableBodyData >{trader.total_cash}</TableBodyData>
+                <TableBodyData >
                     {isApproved(trader.status) ? 'Active' : 'Pending'}
-                    </TableBodyData>
-                <TableBodyData>{isApproved(trader.status) ? 'Approved' : <ActivateButton onClick={approveTrader}>Activate</ActivateButton>}</TableBodyData>
+                </TableBodyData>
+                <TableBodyData>{isApproved(trader.status) ? 'Approved' : <ActivateButton style={{zIndex: '10'}} onClick={approveTrader}>Activate</ActivateButton>}</TableBodyData>
             </tr>
         )
     })
