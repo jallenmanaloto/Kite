@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Auth from '../Contexts/Auth'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
@@ -32,7 +34,7 @@ const FormContainer = styled.div`
     z-index: 10;
 `
 
-const FormComp = styled.form`
+const FormComp = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -151,7 +153,9 @@ const AdminLogin = () => {
     const axios = require('axios');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState({});
+    const {currentUser, setCurrentUser} = useContext(Auth)
+
+    const navigate = useNavigate()
 
     const handleEmail = (e) => {
         setEmail(e.target.value)
@@ -177,7 +181,7 @@ const AdminLogin = () => {
         })
             .then((res) => {
                 const { "access-token": token } = res.headers
-                setUser({
+                setCurrentUser({
                     email: res.data.data.email,
                     id: res.data.data.id,
                     name: res.data.data.name,
@@ -186,7 +190,8 @@ const AdminLogin = () => {
                     expiry: res.headers.expiry,
                     uid: res.headers.uid
                 })
-
+                
+                navigate('/admin-dashboard', { replace: true })
             })
             .catch(err => console.log(err))
     }
@@ -206,7 +211,7 @@ const AdminLogin = () => {
                     </Field>
                     <Field>
                         <Label htmlFor="">Password</Label>
-                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="text" name="password" id="" />
+                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="" />
                     </Field>
                     <Options>
                         <Form>
