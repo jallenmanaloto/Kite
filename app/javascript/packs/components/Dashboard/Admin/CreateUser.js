@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import AdminContext from '../../Contexts/AdminContext'
 import axios from 'axios'
+import Alert from 'react-bootstrap/Alert'
 import styled from 'styled-components'
 import Form from 'react-bootstrap/Form'
 
@@ -112,9 +113,11 @@ const CreateUser = () => {
     const { refresh, setRefresh } = useContext(AdminContext)
 
     // Declaring states
+    const [alert, setAlert] = useState(false)
     const [checked, setChecked] = useState(false)
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    const [userPasswordConfirm, setUserPasswordConfirm] = useState('');
     const [userNickname, setUserNickname] = useState('');
     const [userEmail, setUserEmail] = useState('');
 
@@ -131,8 +134,28 @@ const CreateUser = () => {
         setUserPassword(e.target.value)
     }
 
+    const handlePasswordConfirm = (e) => {
+        setUserPasswordConfirm(e.target.value)
+    }
+
     const handleNickname = (e) => {
         setUserNickname(e.target.value)
+    }
+
+    const handleFormReset = () => {
+        setUserName('')
+        setUserPassword('')
+        setUserPasswordConfirm('')
+        setUserNickname('')
+        setUserEmail('')
+    }
+
+    //Handling alert
+    const handleAlert = () => {
+        setAlert(true)
+        setInterval(() => {
+            setAlert(false)
+        }, 2700)
     }
 
     // Posting request on Submit
@@ -154,6 +177,8 @@ const CreateUser = () => {
                 setRefresh(refresh + 1)
             })
             .catch(err => console.log(err))
+            handleAlert()
+            handleFormReset()
     }
 
     return (
@@ -164,6 +189,17 @@ const CreateUser = () => {
                     <FormSubject>User Details</FormSubject>
                 </FormHeader>
                 <FormFields className='formFields'>
+                    {alert ? 
+                        <Alert 
+                            variant='success' 
+                            style={{
+                                position: 'absolute', 
+                                top: '3em',
+                                marginLeft: '50%', 
+                                transform: 'translateX(-50%)'
+                            }}>User successfully created!
+                        </Alert> : null
+                    }
                     <FormLeft>
                         <Form onSubmit={handleCreateUser}>
                             <Form.Group className='mb-3'>
@@ -188,7 +224,7 @@ const CreateUser = () => {
                             </Form.Group>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Password confirmation</Form.Label>
-                                <Form.Control type='password' placeholder='Confirm password' />
+                                <Form.Control type='password' placeholder='Confirm password' value={userPasswordConfirm} onChange={handlePasswordConfirm} />
                             </Form.Group>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Total Cash</Form.Label>
