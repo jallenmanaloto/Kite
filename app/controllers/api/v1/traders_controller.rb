@@ -35,7 +35,7 @@ module Api
                     stock.update(
                         symbol: stock.symbol, 
                         latest_price: stock.latest_price, 
-                        change_percent: stock.change_percent, 
+                        change_percent: stock.change_percent_s, 
                         name: stock.company_name, 
                         company_logo: stock_to_buy.logo,
                         quantity: stock.calculate_quantity(shares)
