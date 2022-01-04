@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'api/v1/users#page'
   get 'index', to: 'markets#index'
-  get 'search', to: 'markets#search'
+  post 'search', to: 'api/v1/markets#search'
   get '/all_traders', to: 'api/v1/users#all_traders'
   # patch '/:user_id/:id/edit_trader', to: 'api/v1/admins#edit_trader'
 
@@ -32,5 +32,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'api/v1/users#page', via: :all
+  # get '*path', to: 'api/v1/users#page', via: :all
 end
