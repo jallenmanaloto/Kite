@@ -24,7 +24,7 @@ const FormContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 58vh;
+    height: 66vh;
     width: 500px;
     box-shadow: 7px 8px 29px 6px rgba(0,0,0,0.38);
     border-radius: 16px;
@@ -55,7 +55,7 @@ const Brand = styled.h1`
 `
 
 const Signin = styled.h1`
-    margin-bottom: 11em;
+    margin-bottom: 13.3em;
     position: absolute;
     color: #3E3D3D;
     font-family: 'Roboto', sans-serif;
@@ -123,7 +123,7 @@ const Signup = styled.div`
     align-items: center;
     position: absolute;
     z-index: 10;
-    margin-top: 35%;
+    margin-top: 42%;
 `
 
 const SignupText = styled.h5`
@@ -151,6 +151,7 @@ const Register = () => {
     const axios = require('axios');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [user, setUser] = useState({});
 
     const handleEmail = (e) => {
@@ -159,6 +160,10 @@ const Register = () => {
 
     const handlePassword = (e) => {
         setPassword(e.target.value)
+    }
+
+    const handleConfirmPassword =(e) => {
+        setConfirmPassword(e.target.value)
     }
 
     const handleKeyDown = (e) => {
@@ -202,6 +207,10 @@ const Register = () => {
                     <Field>
                         <Label htmlFor="">Password</Label>
                         <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="password-register" />
+                    </Field>
+                    <Field>
+                        <Label htmlFor="">Confirm password</Label>
+                        <Textfield onKeyDown={handleKeyDown} onChange={handleConfirmPassword} value={confirmPassword} type="password" name="confirm-password" id="confirm-password-register" />
                     </Field>
                     <Button type="submit" onClick={handleSignIn}>Sign up</Button>
                 </FormComp>
