@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
+import Auth from '../../Contexts/Auth'
 import styled from 'styled-components'
 import { Notifications } from '@styled-icons/ionicons-sharp'
 import { Message } from '@styled-icons/boxicons-solid'
@@ -34,34 +35,6 @@ const SearchInput = styled.input`
     outline: none;
     padding-left: 0.5rem;
 `
-const SearchList = styled.div`
-    list-style-type: none;
-    height: 3rem;
-    background-color: green;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0.4rem 1.5rem;
-`
-const SearchStock = styled.li`
-    font-family: 'Roboto', sans-serif;
-    list-style-type: none;
-    margin: 0 1rem;
-`
-const SearchStockSymbol = styled(SearchStock)`
-    font-size: 1rem;
-`
-const Searches = styled.div`
-    position: fixed;
-    top: 5vh;
-    width: 300px;
-    min-height: 3rem;
-    max-height: 400px;
-    background-color: green;
-    display: flex;
-    flex-direction: column;
-    overflowY: scroll;
-`
 const UserContainer = styled.div`
     display: flex;
     height: 100%;
@@ -75,11 +48,21 @@ const Header = () => {
     const axios = require('axios')
     const [search, setSearch] = useState('');
     const [stocks, setStocks] = useState([])
-    const [arr, setArr] = useState([])
+    const [refresher, setrefresher] = useState(0)
+
+    const { searchInput, setSearchInput, searchShow, setSearchShow, setSearchStock } = useContext(Auth)
 
     const handleInputValue = (e) => {
         setSearch(e.target.value)
+        setSearchInput(e.target.value)
+        setrefresher(refresher + 1)
     }
+
+    useEffect(() => {
+        if (searchInput === '') {
+            setSearchShow(false)
+        }
+    }, [refresher])
 
     const handleKeyDown = (e) => {
         e.key === "Enter" && handleSearch(e);
@@ -94,18 +77,11 @@ const Header = () => {
             }
         })
             .then((res) => {
-                setStocks(res.data.stock)
+                setSearchStock(res.data.stock)
+                setSearchShow(true)
             })
             .catch(err => console.log(err))
     }
-
-    const stockResponse = stocks.map((val, key) => {
-        return <SearchList key={val.id}>
-            <SearchStock >{val.name}</SearchStock>
-            <SearchStockSymbol>{val.symbol}</SearchStockSymbol>
-        </SearchList>
-    })
-
     return (
         <Head>
             <SearchContainer className="search">
@@ -119,8 +95,8 @@ const Header = () => {
                         id="search"
                         placeholder='Search stock'
                         autoComplete='off'
-                        onKeyDown={handleKeyDown}
                         onChange={handleInputValue}
+                        onKeyDown={handleKeyDown}
                         onSubmit={handleSearch}
                     />
                 </InputContainer>
@@ -135,9 +111,7 @@ const Header = () => {
                 }} />
                 Trader
             </UserContainer>
-            <div style={{ position: 'fixed', top: '7vh', left: '14vw', width: '500px', backgroundColor: 'lightblue' }}>
-                {stockResponse}
-            </div>
+
         </Head>
     )
 }
