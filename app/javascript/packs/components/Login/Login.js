@@ -196,7 +196,7 @@ const Login = (setHeaders) => {
         })
             .then((res) => {
                 const { "access-token": token } = res.headers
-                setHeaders({
+                setUser({
                     email: res.data.data.email,
                     id: res.data.data.id,
                     name: res.data.data.name,
@@ -237,11 +237,11 @@ const Login = (setHeaders) => {
                 <FormComp onSubmit={handleSignIn} className='loginForm' action="">
                     <Field>
                         <Label htmlFor="">Email</Label>
-                        <Textfield onChange={handleEmail} value={email} type="email" name="email" id="" />
+                        <Textfield onChange={handleEmail} value={email} type="email" name="email" id="email" />
                     </Field>
                     <Field>
                         <Label htmlFor="">Password</Label>
-                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="" />
+                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="name" />
                     </Field>
                     <Options>
                         <Form>
