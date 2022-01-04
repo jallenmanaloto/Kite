@@ -16,9 +16,7 @@ class Market < ApplicationRecord
         quote.change_percent_s
     end
 
-    def top_movers
-        market = client.stock_market_list(:mostactive) ## migrate this to Market Controller for easier json request
-    end
+    
 
     def company_info
         company = @@client.company(self.symbol)
