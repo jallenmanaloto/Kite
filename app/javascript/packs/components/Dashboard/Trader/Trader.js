@@ -4,9 +4,9 @@ import Header from './Header'
 
 const Trader = () => {
     return (
-        <div>
+        <div style={{ backgroundColor: '#eaeff3' }}>
             <Sidebar />
-
+            <Header />
         </div>
     )
 }
