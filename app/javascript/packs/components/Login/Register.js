@@ -24,7 +24,7 @@ const FormContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 67vh;
+    height: 58vh;
     width: 500px;
     box-shadow: 7px 8px 29px 6px rgba(0,0,0,0.38);
     border-radius: 16px;
@@ -39,6 +39,7 @@ const FormComp = styled.form`
     align-items: center;
     height: 80%;
     width: 100%;
+    margin-top: 2em;
     z-index: 10;
 `
 
@@ -54,7 +55,7 @@ const Brand = styled.h1`
 `
 
 const Signin = styled.h1`
-    margin-bottom: 13em;
+    margin-bottom: 11em;
     position: absolute;
     color: #3E3D3D;
     font-family: 'Roboto', sans-serif;
@@ -122,7 +123,7 @@ const Signup = styled.div`
     align-items: center;
     position: absolute;
     z-index: 10;
-    margin-top: 38%;
+    margin-top: 35%;
 `
 
 const SignupText = styled.h5`
@@ -169,22 +170,13 @@ const Register = () => {
         axios({
             method: 'post',
             url: 'http://localhost:3000/auth',
-            data: {
+            data: { user: {
                 email: email,
                 password: password
+                }
             }
         })
             .then((res) => {
-                // const { "access-token": token } = res.headers
-                // setUser({
-                //     email: res.data.data.email,
-                //     id: res.data.data.id,
-                //     name: res.data.data.name,
-                //     client: res.headers.client,
-                //     access_token: token,
-                //     expiry: res.headers.expiry,
-                //     uid: res.headers.uid
-                // })
                 console.log(res)
             })
             .catch(err => console.log(err))
@@ -197,11 +189,11 @@ const Register = () => {
             </ImageContainer>
             <Brand className='brand'>kite</Brand>
             <FormContainer className='loginFormContainer'>
-                <Signin>Sign up</Signin>
+                <Signin>Register an account</Signin>
                 <FormComp className='loginForm' action="">
                     <Field>
                         <Label htmlFor="">Email</Label>
-                        <Textfield onChange={handleEmail} value={email} type="email" name="email" id="" />
+                        <Textfield onChange={handleEmail} value={email} type="email" name="email" id="email-register" />
                     </Field>
                     <Field>
                         <Label htmlFor="">Name</Label>
@@ -209,16 +201,9 @@ const Register = () => {
                     </Field>
                     <Field>
                         <Label htmlFor="">Password</Label>
-                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="text" name="password" id="" />
+                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="password-register" />
                     </Field>
-                    <Options>
-                        <Form>
-                            <Form.Check.Input style={{ borderColor: '#595959', cursor: 'pointer' }} type='checkbox' isValid />
-                            <Form.Check.Label style={{ paddingLeft: '0.5rem', color: '#595959' }}>Remember me</Form.Check.Label>
-                        </Form>
-                        <ForgotText>Forgot Password?</ForgotText>
-                    </Options>
-                    <Button type="submit" onClick={handleSignIn}>Sign In</Button>
+                    <Button type="submit" onClick={handleSignIn}>Sign up</Button>
                 </FormComp>
             </FormContainer>
             <Signup>
