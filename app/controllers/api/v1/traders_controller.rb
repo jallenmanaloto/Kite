@@ -45,10 +45,11 @@ module Api
                         :transaction_name => "buy",
                         :stock_name => stock.company_name,
                         :symbol => stock.symbol,
-                        :quantity => amount_bought,
-                        :price => stock.latest_price
+                        :quantity => buy_cash,
+                        :price => stock.latest_price,
+                        :amount_bought => params[:amount_bought]
                     )
-                    render json: { amount_paid: buy_cash, trader: trader, stock: stock }
+                    render json: { amount_paid: buy_cash, trader: trader, stock: stock, history: history }
                 end
             end
 
