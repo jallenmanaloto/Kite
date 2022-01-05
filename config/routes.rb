@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :markets
       resources :users do
         resources :traders do
           get :all_stocks, on: :member
@@ -28,6 +27,9 @@ Rails.application.routes.draw do
         resources :admins do
           patch :approve_account, on: :member
         end
+      end
+      resource :markets do 
+        post :specific_company, on: :member
       end
     end
   end
