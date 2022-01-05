@@ -2,8 +2,9 @@ import React, { useContext } from 'react'
 import Auth from '../../Contexts/Auth'
 import Sidebar from './Sidebar'
 import Header from './Header'
-import Wallet from './Wallet'
 import SearchHeader from './SearchHeader'
+import Trade from './Trade'
+import Wallet from './Wallet'
 
 const Trader = () => {
 
@@ -15,6 +16,8 @@ const Trader = () => {
             <Header />
             {searchShow ? <SearchHeader /> : null}
             {traderMain.main === 'wallet' ? <Wallet /> : null }
+            {traderMain.main === 'trade' ? <Trade /> : null }
+
         </div>
     )
 }
