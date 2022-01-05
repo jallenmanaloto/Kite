@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import Auth from '../../Contexts/Auth'
 import styled from 'styled-components'
 import logo from '../../../../../assets/images/logo.png'
 import 'stylesheets/application.css'
@@ -53,14 +54,13 @@ const Sidenav = styled.div`
     background-color: #394351;
 `
 
-
-
 const Sidebar = () => {
 
     const [dashboard, setDashboard] = useState(true)
     const [trade, setTrade] = useState(false)
     const [wallet, setWallet] = useState(false)
     const [myStocks, setMyStocks] = useState(false)
+    const { setTraderMain } = useContext(Auth)
 
     //handling navigations focus
     const handleDashboard = () => {
@@ -68,6 +68,9 @@ const Sidebar = () => {
         setTrade(false)
         setWallet(false)
         setMyStocks(false)
+        setTraderMain({
+            main: 'dashboard'
+        })
     }
 
     const handleTrade = () => {
@@ -75,6 +78,9 @@ const Sidebar = () => {
         setTrade(true)
         setWallet(false)
         setMyStocks(false)
+        setTraderMain({
+            main: 'trade'
+        })
     }
 
     const handleWallet = () => {
@@ -82,6 +88,9 @@ const Sidebar = () => {
         setTrade(false)
         setWallet(true)
         setMyStocks(false)
+        setTraderMain({
+            main: 'wallet'
+        })
     }
 
     const handleMyStocks = () => {
@@ -89,6 +98,9 @@ const Sidebar = () => {
         setTrade(false)
         setWallet(false)
         setMyStocks(true)
+        setTraderMain({
+            main: 'stocks'
+        })
     }
 
     return (
