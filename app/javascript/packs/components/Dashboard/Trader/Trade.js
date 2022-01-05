@@ -1,9 +1,59 @@
 import React, { useState, useEffect, useContext } from 'react'
+import axios from 'axios'
 import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import styled from 'styled-components'
 import 'stylesheets/application.css'
 
+const BuyButton = styled.button`
+    margin-top: 1rem;
+    width: 22%;
+    border: none;
+    background-color: #1F8C76;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    height: 2.7em;
+    border-radius: 5px;
+    :hover {
+        background-color: #2D7264;
+        color: #E1E1E1;
+    }
+`
+const BuyStock = styled.div`
+    height: 48%;
+    width: 100%;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+const BuyStockHeader = styled.h2`
+    font-family: 'Roboto', sans-serif;
+    color: #3E3D3D;
+    margin-top: 1em;
+    padding-bottom: 0.3rem;
+`
+const BuyStockInput = styled.input`
+    outline: none;
+    border: none;
+    background-color: #F8F8F8;
+    border-radius: 15px;
+    height: 2.1rem;
+    width: 60%;
+    padding-left: 1.5rem;
+`
+const FormGroupOne = styled.div`
+    width: 45%;
+    margin-left: 2.2rem;
+`
+const FormGroupTwo = styled.div`
+    width: 45%;
+`
 const Histories = styled.div`
     background-color: white;
     border: 1px solid white;
@@ -16,16 +66,26 @@ const Histories = styled.div`
     flex-direction: column;
     align-items: center;
 `
+const SellStock = styled.div`
+    height: 48%;
+    width: 100%;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+`
 const TradesHistory = styled.h3`
     font-family: 'Roboto', sans-serif;
     color: #3E3D3D;
     margin-top: 2em;
 `
 const Tradings = styled.div`
-    background-color: lightblue;
     margin: 3em 3em 3em 5em;
     width: 55%;
     height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `
 const TransactionAmount = styled.h3`
     font-family: 'Roboto', sans-serif;
@@ -72,11 +132,63 @@ const Trade = () => {
         // fetch all stocks of the trader
     }, [])
 
+    const handleBuyStock = (e) => {
+        e.preventDefault()
+        axios({
+            method: 'patch',
+            url: 'http://localhost:3000/api/v1/users/2/traders/1/buy_stock',
+            data: {
+                symbol: 'AAPL',
+                amount_bought: 20
+            }
+        })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
+    }
+
     return (
         <Wrapper>
             <Tradings className='tradings'>
-                <div className='buy-stock'></div>
-                <div className='sell-stock'></div>
+                <BuyStock className='buy-stock'>
+                    <BuyStockHeader>Buy a stock</BuyStockHeader>
+                    <BuyStockInput type="text" placeholder='search a stock' />
+                    <Form style={{ width: '90%', display: 'flex', justifyContent: 'space-around', marginTop: '1rem' }}>
+                        <FormGroupOne>
+                            <Form.Group className='mb-3'>
+                                <Form.Label>Company</Form.Label>
+                                <Form.Control type='text' value='Apple, Inc.' style={{ width: '70%' }} disabled />
+                            </Form.Group>
+                            <Form.Group className='mb-3'>
+                                <Form.Label>Symbol</Form.Label>
+                                <Form.Control type='text' value='AAPL' style={{ width: '70%' }} disabled />
+                            </Form.Group>
+                        </FormGroupOne>
+                        <FormGroupTwo>
+                            <Form.Group className='mb-3'>
+                                <Form.Label>Latest Price</Form.Label>
+                                <Form.Control type='text' value='127.12' style={{ width: '70%' }} disabled />
+                            </Form.Group>
+                            <Form.Group className='mb-3'>
+                                <Form.Label>Industry</Form.Label>
+                                <Form.Control type='text' value="Technology" style={{ width: '70%' }} disabled />
+                            </Form.Group>
+                        </FormGroupTwo>
+                        <FormGroupTwo>
+                            <Form.Group className='mb-3'>
+                                <Form.Label>Change percent</Form.Label>
+                                <Form.Control type='text' value='+27%' style={{ width: '70%' }} disabled />
+                            </Form.Group>
+                            <Form.Group className='mb-3'>
+                                <Form.Label>Amount to buy</Form.Label>
+                                <Form.Control type='text' style={{ width: '70%' }} />
+                            </Form.Group>
+                        </FormGroupTwo>
+                    </Form>
+                    <BuyButton onClick={handleBuyStock}>Buy</BuyButton>
+                </BuyStock>
+                <SellStock className='sell-stock'></SellStock>
             </Tradings>
             <Histories className='history'>
                 <TradesHistory>Trades History</TradesHistory>
