@@ -128,9 +128,27 @@ const Wrapper = styled.div`
 
 const Trade = () => {
 
+    const [history, setHistory] = useState([])
+    const [userStocks, setUserStocks] = useState([])
+
+    const allStocks = 'http://localhost:3000/api/v1/users/2/traders/1/all_stocks'
+    const allHistory = 'http://localhost:3000/api/v1/users/2/traders/1/histories'
+
+    const getStocks = axios.get(allStocks)
+    const getHistories = axios.get(allHistory)
+
     useEffect(() => {
-        // fetch all stocks of the trader
+        axios.all([getStocks, getHistories])
+        .then(axios.spread((...res) => {
+            console.log(res)
+            setHistory(res[1].data.history)
+            setUserStocks(res[0].data.stocks)
+        }))
+        .catch(err => console.log(err))
     }, [])
+
+    console.log(history)
+    console.log(userStocks)
 
     const handleBuyStock = (e) => {
         e.preventDefault()
@@ -193,30 +211,16 @@ const Trade = () => {
             <Histories className='history'>
                 <TradesHistory>Trades History</TradesHistory>
                 <ListGroup variant='flush' style={{ width: '85%', margin: '3em 0' }}>
-                    <ListGroup.Item style={{ display: 'flex', alignItems: 'center' }}>
-                        <TransactionType className='transaction-type'>BUY</TransactionType>
-                        <TransactionStock className='stock'>Apple, Inc</TransactionStock>
-                        <TransactionSymbol className='symbol'>AAPL</TransactionSymbol>
-                        <TransactionAmount className='amount'>$40</TransactionAmount>
-                    </ListGroup.Item>
-                    <ListGroup.Item style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                        <TransactionType className='transaction-type'>BUY</TransactionType>
-                        <TransactionStock className='stock'>Tesla</TransactionStock>
-                        <TransactionSymbol className='symbol'>TSLA</TransactionSymbol>
-                        <TransactionAmount className='amount'>$100</TransactionAmount>
-                    </ListGroup.Item>
-                    <ListGroup.Item style={{ display: 'flex', alignItems: 'center' }}>
-                        <TransactionType className='transaction-type' style={{ color: '#F05C4D' }}>SELL</TransactionType>
-                        <TransactionStock className='stock'>Ford</TransactionStock>
-                        <TransactionSymbol className='symbol'>F</TransactionSymbol>
-                        <TransactionAmount className='amount'>$20</TransactionAmount>
-                    </ListGroup.Item>
-                    <ListGroup.Item style={{ display: 'flex', alignItems: 'center' }}>
-                        <TransactionType className='transaction-type' style={{ color: '#F05C4D' }}>SELL</TransactionType>
-                        <TransactionStock className='stock'>Agile Technologies, Inc.</TransactionStock>
-                        <TransactionSymbol className='symbol'>A</TransactionSymbol>
-                        <TransactionAmount className='amount'>$130</TransactionAmount>
-                    </ListGroup.Item>
+                    {history.map((val) => {
+                        return(
+                            <ListGroup.Item style={{ display: 'flex', alignItems: 'center' }}>
+                                <TransactionType className='transaction-type'>{val.transaction_name.toUpperCase()}</TransactionType>
+                                <TransactionStock className='stock'>{val.stock_name}</TransactionStock>
+                                <TransactionSymbol className='symbol'>{val.symbol}</TransactionSymbol>
+                                <TransactionAmount className='amount'>{val.quantity}</TransactionAmount>
+                            </ListGroup.Item>
+                        )
+                    })}
                 </ListGroup>
             </Histories>
         </Wrapper>
