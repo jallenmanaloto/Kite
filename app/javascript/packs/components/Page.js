@@ -7,10 +7,13 @@ const Page = () => {
     const [searchStock, setSearchStock] = useState([])
     const [searchInput, setSearchInput] = useState('')
     const [searchShow, setSearchShow] = useState(false)
+    const [traderMain, setTraderMain] = useState({
+        main: 'dashboard'
+    })
     
     return (
         <div>
-            <Auth.Provider value={{ currentUser, setCurrentUser, searchInput, setSearchInput, searchShow, setSearchShow, searchStock, setSearchStock }}>
+            <Auth.Provider value={{ currentUser, setCurrentUser, searchInput, setSearchInput, searchShow, setSearchShow, searchStock, setSearchStock, traderMain, setTraderMain }}>
                 <App />
             </Auth.Provider>
         </div>
