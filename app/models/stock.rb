@@ -4,8 +4,8 @@ class Stock < ApplicationRecord
     validates_presence_of :name, :latest_price, :change_percent, :symbol, :company_logo, :quantity
 
     @@client = IEX::Api::Client.new(
-        publishable_token: 'pk_a020ad363b0b447185bf2db1cfd11154',
-        secret_token: 'sk_4e277e5f5d884ae987d56fca67577a68',
+        publishable_token: 'pk_41c63517dacc473eaf108633da48b5a8',
+        secret_token: 'sk_a403213046f64256871f6e74f76c4cab',
         endpoint: 'https://cloud.iexapis.com/v1'
     )
 
@@ -14,9 +14,9 @@ class Stock < ApplicationRecord
         quote.latest_price
     end
 
-    def change_percent
+    def change_percent_s
         quote = @@client.quote(self.symbol)
-        quote.change_percent
+        quote.change_percent_s
     end
 
     def calculate_quantity(shares)
