@@ -19,7 +19,7 @@ module Api
             end
 
             def specific_company
-                @market = Market.find(params[:id])
+                @market = Market.find_by(:symbol => params[:symbol])
 
                 render json: { 
                     latest_price: @market.latest_price,
