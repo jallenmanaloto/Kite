@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Auth from '../../Contexts/Auth'
 import axios from 'axios'
+import Form from 'react-bootstrap/Form'
 import styled from 'styled-components'
 import 'stylesheets/application.css'
 
@@ -13,12 +14,6 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
 `
-const CurrentBalance = styled.div`
-    font-family: 'Roboto', sans-serif;
-    color: #3E3D3D;
-    top: 2rem;
-    left: 3rem;
-`
 const CurrentCash = styled.div`
     display: flex;
     right: 5vw;
@@ -30,15 +25,11 @@ const CurrentCash = styled.div`
     align-items: center;
 `
 const DepositContainer = styled.div`
-    background-color: white;
     height: 65%;
     width: 95%;
     margin-top: 3em;
     display: flex;
     align-items: center;
-    border: 1px solid white;
-    border-radius: 7px;
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
 `
 const DepositField = styled.input`
     border: none;
@@ -84,6 +75,10 @@ const FormContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
 `
 const NewsContainer = styled.div`
     display: flex;
@@ -115,12 +110,61 @@ const NewsSource = styled.h5`
     color: #3E3D3D;
     margin-top: 0.7rem;
 `
-
 const NewsUrl = styled.a`
     font-family: 'Roboto', sans-serif;
     color: #3E3D3D;
     font-size: 0.8rem;
 `
+const WalletCurr = styled.h4`
+    font-family: 'Roboto', sans-serif;
+    color: #3E3D3D;
+    margin-top: 8em;
+    font-size: 0.8rem;
+`
+const WalletDetails = styled.div`
+    margin-left: 2rem;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+const WalletForms = styled.div`
+    display: flex;
+    width: 90%;
+`
+const WalletHeader = styled.h4`
+    font-family: 'Roboto', sans-serif;
+    color: #3E3D3D;
+    margin-top: 4em;
+    margin-left: 4em;
+`
+const WalletHeads = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+`
+const WithdrawButton = styled.button`
+    margin-top: 3.5em;
+    width: 30%;
+    border: none;
+    background-color: #1F8C76;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    height: 3.2em;
+    border-radius: 5px;
+    :hover {
+        background-color: #2D7264;
+        color: #E1E1E1;
+    }
+`
+
 
 const Wallet = () => {
 
@@ -152,23 +196,24 @@ const Wallet = () => {
     }
 
     useEffect(() => {
-        axios({
-            method: 'post',
-            url: 'http://localhost:3000/api/v1/markets/specific_company',
-            data: {
-                symbol: 'AAPL'
-            }
-        })
-            .then((res) => {
-                setNews(res.data.news_company)
-                setRefresh(refresh + 1)
-            })
-            .catch(err => console.log(err))
+        setBalance(currentUser.total_cash)
+        // axios({
+        //     method: 'post',
+        //     url: 'http://localhost:3000/api/v1/markets/specific_company',
+        //     data: {
+        //         symbol: 'AAPL'
+        //     }
+        // })
+        //     .then((res) => {
+        //         setNews(res.data.news_company)
+        //         setRefresh(refresh + 1)
+        //     })
+        //     .catch(err => console.log(err))
     }, [news.length])
 
     return (
         <Wrapper>
-            <CurrentCash className="current-cash">
+            {/* <CurrentCash className="current-cash">
                 {news.slice(0, 3).map((item) => {
                     console.log(item)
                     return <NewsContainer className="news">
@@ -178,8 +223,7 @@ const Wallet = () => {
                         <NewsUrl href={item.url}>read more..</NewsUrl>
                     </NewsContainer>
                 })}
-
-            </CurrentCash>
+            </CurrentCash> */}
             <DepositContainer className="deposit">
                 <FormContainer className="form-container">
                     <DepositHead className='deposit-header'>Deposit Money</DepositHead>
@@ -187,9 +231,39 @@ const Wallet = () => {
                     <DepositText>How much would you like to deposit?</DepositText>
                     <DepositButton onClick={handleCashIn}>Deposit</DepositButton>
                 </FormContainer>
-                <div className="wallet-details">
-                    <CurrentBalance>Current balance: {balance}</CurrentBalance>
-                </div>
+                <WalletDetails className="wallet-details">
+                    <WalletHeads className='headers'>
+                        <WalletHeader>Your Wallet</WalletHeader>
+                        <WalletCurr>currency: $USD</WalletCurr>
+                    </WalletHeads>
+                    <WalletForms className='forms'>
+                        <div style={{ marginRight: '1rem' }}>
+                            <Form style={{ width: '100%', marginLeft: '7em', marginTop: '4em' }}>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label style={{ fontFamily: 'Roboto, sans-serif', color: '#3E3D3D', fontSize: '1rem' }}>Current balance:</Form.Label>
+                                    <Form.Control type='text' placeholder={balance} style={{ paddingLeft: '1.5rem' }} disabled />
+                                </Form.Group>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label style={{ fontFamily: 'Roboto, sans-serif', color: '#3E3D3D', fontSize: '1rem' }}>Equity:</Form.Label>
+                                    <Form.Control type='text' placeholder='$200.00' style={{ paddingLeft: '1.5rem' }} disabled />
+                                </Form.Group>
+                            </Form>
+                        </div>
+                        <div style={{ marginLeft: '1rem' }}>
+                            <Form style={{ width: '100%', marginLeft: '7em', marginTop: '4em' }}>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label style={{ fontFamily: 'Roboto, sans-serif', color: '#3E3D3D', fontSize: '1rem' }}>Account Type:</Form.Label>
+                                    <Form.Control type='text' placeholder='Premium' style={{ paddingLeft: '1.5rem' }} disabled />
+                                </Form.Group>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label style={{ fontFamily: 'Roboto, sans-serif', color: '#3E3D3D', fontSize: '1rem' }}>Account Number:</Form.Label>
+                                    <Form.Control type='text' placeholder='A-0123456789' style={{ paddingLeft: '1.5rem' }} disabled />
+                                </Form.Group>
+                            </Form>
+                        </div>
+                    </WalletForms>
+                    <WithdrawButton className='withdraw-btn'>Withdraw</WithdrawButton>
+                </WalletDetails>
             </DepositContainer>
         </Wrapper>
     )
