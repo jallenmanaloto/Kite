@@ -7,7 +7,7 @@ module Api
                 trader = user.trader
                 history = trader.histories.all
 
-                render json: { history: history }, status: :ok
+                render json: { history: history.sort.reverse }, status: :ok
             end
         end
     end
