@@ -136,6 +136,13 @@ const Trade = () => {
 
     const { currentUser, setCurrentUser } = useContext(Auth)
     const [buystock, setBuystock] = useState()
+    const [buyDetails, setBuyDetails] = useState({
+        name: '',
+        change_percent: '',
+        latest_price: '',
+        symbol: '', 
+        industry: ''
+    })
     const [refresh, setRefresh] = useState(0)
     const [history, setHistory] = useState([])
     const [market, setMarket] = useState([])
@@ -252,32 +259,32 @@ const Trade = () => {
                 <BuyStock className='buy-stock'>
                     <BuyStockHeader>Buy a stock</BuyStockHeader>
                     <BuyStockInput type="text" placeholder='search a stock' value={search} onChange={handleSearchInput}/>
-                    {search === '' ? null : <BuySearchCard search={search} market={market} />}
+                    {search === '' ? null : <BuySearchCard setSearch={setSearch} market={market} setBuyDetails={setBuyDetails} />}
                     <Form style={{ width: '90%', display: 'flex', justifyContent: 'space-around', marginTop: '1rem' }}>
                         <FormGroupOne>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Company</Form.Label>
-                                <Form.Control type='text' value='Apple, Inc.' style={{ width: '70%' }} disabled />
+                                <Form.Control type='text' value={buyDetails.name} style={{ width: '70%' }} disabled />
                             </Form.Group>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Symbol</Form.Label>
-                                <Form.Control type='text' value='AAPL' style={{ width: '70%' }} disabled />
+                                <Form.Control type='text' value={buyDetails.symbol} style={{ width: '70%' }} disabled />
                             </Form.Group>
                         </FormGroupOne>
                         <FormGroupTwo>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Latest Price</Form.Label>
-                                <Form.Control type='text' value='127.12' style={{ width: '70%' }} disabled />
+                                <Form.Control type='text' value={buyDetails.latest_price} style={{ width: '70%' }} disabled />
                             </Form.Group>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Industry</Form.Label>
-                                <Form.Control type='text' value="Technology" style={{ width: '70%' }} disabled />
+                                <Form.Control type='text' value={buyDetails.industry} style={{ width: '70%' }} disabled />
                             </Form.Group>
                         </FormGroupTwo>
                         <FormGroupTwo>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Change percent</Form.Label>
-                                <Form.Control type='text' value='+27%' style={{ width: '70%' }} disabled />
+                                <Form.Control type='text' value={buyDetails.change_percent} style={{ width: '70%' }} disabled />
                             </Form.Group>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Amount to buy</Form.Label>
