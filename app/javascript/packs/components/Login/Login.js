@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import Auth from '../Contexts/Auth'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
@@ -163,6 +164,7 @@ const ImageContainer = styled.div`
 
 const Login = (setHeaders) => {
 
+    const { setCurrentUser } = useContext(Auth)
     const axios = require('axios');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -196,7 +198,7 @@ const Login = (setHeaders) => {
         })
             .then((res) => {
                 const { "access-token": token } = res.headers
-                setUser({
+                setCurrentUser({
                     email: res.data.data.email,
                     id: res.data.data.id,
                     name: res.data.data.name,
