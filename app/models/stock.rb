@@ -42,8 +42,7 @@ class Stock < ApplicationRecord
     def sell_stock(quantity)
         # deduct amount of quantity to be sold
         # calculate equity and add to trader's total_cash
-        # current_cash_value = self.quantity - cash_value
-        # self.quantity = current_cash_value
-        self.quantity - quantity
+        
+        self.quantity = ((self.quantity * self.latest_price) - quantity)/self.latest_price
     end
 end
