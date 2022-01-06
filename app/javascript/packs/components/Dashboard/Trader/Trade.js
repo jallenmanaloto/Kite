@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import Auth from '../../Contexts/Auth'
 import axios from 'axios'
 import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -73,6 +74,9 @@ const SellStock = styled.div`
     border: 1px solid white;
     border-radius: 7px;
     box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 const TradesHistory = styled.h3`
     font-family: 'Roboto', sans-serif;
@@ -128,6 +132,8 @@ const Wrapper = styled.div`
 
 const Trade = () => {
 
+    const { currentUser, setCurrentUser } = useContext(Auth)
+    const [refresh, setRefresh] = useState(0)
     const [history, setHistory] = useState([])
     const [userStocks, setUserStocks] = useState([])
 
@@ -137,6 +143,7 @@ const Trade = () => {
     const getStocks = axios.get(allStocks)
     const getHistories = axios.get(allHistory)
 
+
     useEffect(() => {
         axios.all([getStocks, getHistories])
         .then(axios.spread((...res) => {
@@ -145,7 +152,7 @@ const Trade = () => {
             setUserStocks(res[0].data.stocks)
         }))
         .catch(err => console.log(err))
-    }, [])
+    }, [refresh])
 
     console.log(history)
     console.log(userStocks)
@@ -162,8 +169,13 @@ const Trade = () => {
         })
             .then((res) => {
                 console.log(res)
+                setRefresh(refresh + 1)
             })
             .catch(err => console.log(err))
+    }
+
+    const handleSellStock = (e) => {
+        e.preventDefault()
     }
 
     return (
@@ -206,18 +218,65 @@ const Trade = () => {
                     </Form>
                     <BuyButton onClick={handleBuyStock}>Buy</BuyButton>
                 </BuyStock>
-                <SellStock className='sell-stock'></SellStock>
+                <SellStock className='sell-stock'>
+                    <BuyStockHeader>Sell a stock</BuyStockHeader>
+                    <Form style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                        <Form.Group style={{width: '60%'}}>
+                            <Form.Select>
+                                <option>Stocks you own</option>
+                                {userStocks.map((val) => {
+                                    return(
+                                        <option key={val.id} onClick={console.log('clicked')}>{val.name}</option>
+                                    )
+                                })}
+                            </Form.Select>
+                        </Form.Group>
+                    </Form>
+                        <Form style={{ width: '90%', display: 'flex', justifyContent: 'space-around', marginTop: '1rem' }}>
+                            <FormGroupOne>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label>Company</Form.Label>
+                                    <Form.Control type='text' value='Apple, Inc.' style={{ width: '70%' }} disabled />
+                                </Form.Group>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label>Symbol</Form.Label>
+                                    <Form.Control type='text' value='AAPL' style={{ width: '70%' }} disabled />
+                                </Form.Group>
+                            </FormGroupOne>
+                            <FormGroupTwo>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label>Latest Price</Form.Label>
+                                    <Form.Control type='text' value='127.12' style={{ width: '70%' }} disabled />
+                                </Form.Group>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label>Shares owned</Form.Label>
+                                    <Form.Control type='text' value="1.111547" style={{ width: '70%' }} disabled />
+                                </Form.Group>
+                            </FormGroupTwo>
+                            <FormGroupTwo>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label>Change percent</Form.Label>
+                                    <Form.Control type='text' value='+27%' style={{ width: '70%' }} disabled />
+                                </Form.Group>
+                                <Form.Group className='mb-3'>
+                                    <Form.Label>Amount to sell</Form.Label>
+                                    <Form.Control type='text' style={{ width: '70%' }} />
+                                </Form.Group>
+                            </FormGroupTwo>
+                        </Form>
+                        <BuyButton>Sell</BuyButton>
+                </SellStock>
             </Tradings>
             <Histories className='history'>
                 <TradesHistory>Trades History</TradesHistory>
                 <ListGroup variant='flush' style={{ width: '85%', margin: '3em 0' }}>
                     {history.map((val) => {
                         return(
-                            <ListGroup.Item style={{ display: 'flex', alignItems: 'center' }}>
+                            <ListGroup.Item key={val.id} style={{ display: 'flex', alignItems: 'center' }}>
                                 <TransactionType className='transaction-type'>{val.transaction_name.toUpperCase()}</TransactionType>
                                 <TransactionStock className='stock'>{val.stock_name}</TransactionStock>
                                 <TransactionSymbol className='symbol'>{val.symbol}</TransactionSymbol>
-                                <TransactionAmount className='amount'>{val.quantity}</TransactionAmount>
+                                <TransactionAmount className='amount'>${val.quantity}</TransactionAmount>
                             </ListGroup.Item>
                         )
                     })}
