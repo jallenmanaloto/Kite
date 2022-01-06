@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Auth from '../../Contexts/Auth'
+import BuySearchCard from './BuySearchCard'
 import axios from 'axios'
 import Form from 'react-bootstrap/Form'
 import Pagination from './Pagination'
@@ -137,6 +138,7 @@ const Trade = () => {
     const [buystock, setBuystock] = useState()
     const [refresh, setRefresh] = useState(0)
     const [history, setHistory] = useState([])
+    const [market, setMarket] = useState([])
     const [userStocks, setUserStocks] = useState([])
     const [optionData, setOptionData] = useState({
         name: '',
@@ -145,21 +147,20 @@ const Trade = () => {
         quantity: '',
         change_percent: ''
     })
-    
+
+    //setting state for input for buying stock
+    const [search, setSearch] = useState('')
 
     //state for pagination
-    const [tradeHistories, setTradeHistories] =  useState([])
-    const [loading, setLoding] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
+    const [loading, setLoding] = useState(false)
+    const [tradeHistories, setTradeHistories] =  useState([])
     const [tradesPerPage, setTradesPerPage] = useState(11)
-    const rev = history.reverse()
 
-    console.log(history)
-    console.log(rev)
     //get current trades
     const indexOfLastTrade = currentPage * tradesPerPage
     const indexOfFirstTrade = indexOfLastTrade - tradesPerPage
-    const currentTrades = history.reverse().slice(indexOfFirstTrade, indexOfLastTrade)
+    const currentTrades = history.slice(indexOfFirstTrade, indexOfLastTrade)
 
     //change page in pagination
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
@@ -170,9 +171,6 @@ const Trade = () => {
     const getStocks = axios.get(allStocks)
     const getHistories = axios.get(allHistory)
 
-    const handleBuystockInput = (e) => {
-        setBuystock(e.target.value)
-    }
 
     useEffect(() => {
         axios.all([getStocks, getHistories])
@@ -181,8 +179,8 @@ const Trade = () => {
             setUserStocks(res[0].data.stocks)
         }))
         .catch(err => console.log(err))
-    }, [refresh])
-
+    }, [])
+    
     const handleBuyStock = (e) => {
         e.preventDefault()
         axios({
@@ -200,18 +198,8 @@ const Trade = () => {
             .catch(err => console.log(err))
     }
 
-    const handleSellStock = (e) => {
-        e.preventDefault()
-        axios({
-            method: 'patch',
-            url: 'http://localhost:3000/api/v1/users/2/traders/1/sell_stock',
-            data: {
-                symbol: 'AAPL',
-                amount_sold: 1
-            }
-        })
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+    const handleBuystockInput = (e) => {
+        setBuystock(e.target.value)
     }
 
     const handleOptions = (e) => {
@@ -230,12 +218,41 @@ const Trade = () => {
         }
     }
 
+    const handleSearchInput = (e) => {
+        setSearch(e.target.value)
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000/search',
+            data: {
+                search: search
+            }
+        })
+        .then((res) => {
+            setMarket(res.data.stock.slice(0,4))
+        })
+        .catch(err => console.log(err))
+    }
+    const handleSellStock = (e) => {
+        e.preventDefault()
+        axios({
+            method: 'patch',
+            url: 'http://localhost:3000/api/v1/users/2/traders/1/sell_stock',
+            data: {
+                symbol: 'AAPL',
+                amount_sold: 1
+            }
+        })
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
+
     return (
         <Wrapper>
             <Tradings className='tradings'>
                 <BuyStock className='buy-stock'>
                     <BuyStockHeader>Buy a stock</BuyStockHeader>
-                    <BuyStockInput type="text" placeholder='search a stock' />
+                    <BuyStockInput type="text" placeholder='search a stock' value={search} onChange={handleSearchInput}/>
+                    {search === '' ? null : <BuySearchCard search={search} market={market} />}
                     <Form style={{ width: '90%', display: 'flex', justifyContent: 'space-around', marginTop: '1rem' }}>
                         <FormGroupOne>
                             <Form.Group className='mb-3'>
