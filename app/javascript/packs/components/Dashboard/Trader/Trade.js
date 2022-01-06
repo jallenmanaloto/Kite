@@ -138,24 +138,35 @@ const Trade = () => {
     const [refresh, setRefresh] = useState(0)
     const [history, setHistory] = useState([])
     const [userStocks, setUserStocks] = useState([])
+    const [optionData, setOptionData] = useState({
+        name: '',
+        symbol: '',
+        latest_price: '',
+        quantity: '',
+        change_percent: ''
+    })
+    
 
     //state for pagination
     const [tradeHistories, setTradeHistories] =  useState([])
     const [loading, setLoding] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [tradesPerPage, setTradesPerPage] = useState(11)
+    const rev = history.reverse()
 
+    console.log(history)
+    console.log(rev)
     //get current trades
     const indexOfLastTrade = currentPage * tradesPerPage
     const indexOfFirstTrade = indexOfLastTrade - tradesPerPage
-    const currentTrades = history.slice(indexOfFirstTrade, indexOfLastTrade)
+    const currentTrades = history.reverse().slice(indexOfFirstTrade, indexOfLastTrade)
 
     //change page in pagination
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
+    //setting url for posting multiple requests
     const allStocks = 'http://localhost:3000/api/v1/users/2/traders/1/all_stocks'
     const allHistory = 'http://localhost:3000/api/v1/users/2/traders/1/histories'
-
     const getStocks = axios.get(allStocks)
     const getHistories = axios.get(allHistory)
 
@@ -166,15 +177,11 @@ const Trade = () => {
     useEffect(() => {
         axios.all([getStocks, getHistories])
         .then(axios.spread((...res) => {
-            console.log(res)
             setHistory(res[1].data.history)
             setUserStocks(res[0].data.stocks)
         }))
         .catch(err => console.log(err))
     }, [refresh])
-
-    console.log(history)
-    console.log(userStocks)
 
     const handleBuyStock = (e) => {
         e.preventDefault()
@@ -182,7 +189,7 @@ const Trade = () => {
             method: 'patch',
             url: 'http://localhost:3000/api/v1/users/2/traders/1/buy_stock',
             data: {
-                symbol: 'AAPL',
+                symbol: 'TSLA',
                 amount_bought: buystock
             }
         })
@@ -205,6 +212,22 @@ const Trade = () => {
         })
         .then(res => console.log(res))
         .catch(err => console.log(err))
+    }
+
+    const handleOptions = (e) => {
+        if(e.target.value === "Stocks you own") {
+            setOptionData({
+                name: '',
+                symbol: '',
+                latest_price: '',
+                quantity: '',
+                change_percent: ''
+            })
+        } else {
+            userStocks.filter(stock => stock.name === e.target.value).map((val) => {
+                setOptionData(val)
+            })
+        }
     }
 
     return (
@@ -251,11 +274,11 @@ const Trade = () => {
                     <BuyStockHeader>Sell a stock</BuyStockHeader>
                     <Form style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                         <Form.Group style={{width: '60%'}}>
-                            <Form.Select>
+                            <Form.Select onChange={handleOptions}>
                                 <option>Stocks you own</option>
                                 {userStocks.map((val) => {
                                     return(
-                                        <option key={val.id} onClick={console.log('clicked')}>{val.name}</option>
+                                        <option key={val.id} data-details={val.name}>{val.name}</option>
                                     )
                                 })}
                             </Form.Select>
@@ -265,27 +288,27 @@ const Trade = () => {
                             <FormGroupOne>
                                 <Form.Group className='mb-3'>
                                     <Form.Label>Company</Form.Label>
-                                    <Form.Control type='text' value='Apple, Inc.' style={{ width: '70%' }} disabled />
+                                    <Form.Control type='text' value={optionData == undefined ? null : optionData.name} style={{ width: '70%' }} disabled />
                                 </Form.Group>
                                 <Form.Group className='mb-3'>
                                     <Form.Label>Symbol</Form.Label>
-                                    <Form.Control type='text' value='AAPL' style={{ width: '70%' }} disabled />
+                                    <Form.Control type='text' value={optionData.symbol} style={{ width: '70%' }} disabled />
                                 </Form.Group>
                             </FormGroupOne>
                             <FormGroupTwo>
                                 <Form.Group className='mb-3'>
                                     <Form.Label>Latest Price</Form.Label>
-                                    <Form.Control type='text' value='127.12' style={{ width: '70%' }} disabled />
+                                    <Form.Control type='text' value={optionData.latest_price} style={{ width: '70%' }} disabled />
                                 </Form.Group>
                                 <Form.Group className='mb-3'>
-                                    <Form.Label>Shares owned</Form.Label>
-                                    <Form.Control type='text' value="1.111547" style={{ width: '70%' }} disabled />
+                                    <Form.Label>Equity owned</Form.Label>
+                                    <Form.Control type='text' value={`$${(optionData.quantity * optionData.latest_price).toFixed(2)}`} style={{ width: '70%' }} disabled />
                                 </Form.Group>
                             </FormGroupTwo>
                             <FormGroupTwo>
                                 <Form.Group className='mb-3'>
                                     <Form.Label>Change percent</Form.Label>
-                                    <Form.Control type='text' value='+27%' style={{ width: '70%' }} disabled />
+                                    <Form.Control type='text' value={optionData.change_percent} style={{ width: '70%' }} disabled />
                                 </Form.Group>
                                 <Form.Group className='mb-3'>
                                     <Form.Label>Amount to sell</Form.Label>
@@ -302,7 +325,7 @@ const Trade = () => {
                     {currentTrades.map((val) => {
                         return(
                             <ListGroup.Item key={val.id} style={{ display: 'flex', alignItems: 'center' }}>
-                                <TransactionType className='transaction-type'>{val.transaction_name.toUpperCase()}</TransactionType>
+                                <TransactionType style={{color: `${val.transaction_name === 'buy' ? '#1F8C76' : 'red'}`}} className='transaction-type'>{val.transaction_name.toUpperCase()}</TransactionType>
                                 <TransactionStock className='stock'>{val.stock_name}</TransactionStock>
                                 <TransactionSymbol className='symbol'>{val.symbol}</TransactionSymbol>
                                 <TransactionAmount className='amount'>${val.quantity}</TransactionAmount>
