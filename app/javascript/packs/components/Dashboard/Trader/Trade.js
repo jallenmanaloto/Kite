@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Auth from '../../Contexts/Auth'
 import axios from 'axios'
 import Form from 'react-bootstrap/Form'
+import Pagination from './Pagination'
 import ListGroup from 'react-bootstrap/ListGroup'
 import styled from 'styled-components'
 import 'stylesheets/application.css'
@@ -133,9 +134,24 @@ const Wrapper = styled.div`
 const Trade = () => {
 
     const { currentUser, setCurrentUser } = useContext(Auth)
+    const [buystock, setBuystock] = useState()
     const [refresh, setRefresh] = useState(0)
     const [history, setHistory] = useState([])
     const [userStocks, setUserStocks] = useState([])
+
+    //state for pagination
+    const [tradeHistories, setTradeHistories] =  useState([])
+    const [loading, setLoding] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [tradesPerPage, setTradesPerPage] = useState(11)
+
+    //get current trades
+    const indexOfLastTrade = currentPage * tradesPerPage
+    const indexOfFirstTrade = indexOfLastTrade - tradesPerPage
+    const currentTrades = history.slice(indexOfFirstTrade, indexOfLastTrade)
+
+    //change page in pagination
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
     const allStocks = 'http://localhost:3000/api/v1/users/2/traders/1/all_stocks'
     const allHistory = 'http://localhost:3000/api/v1/users/2/traders/1/histories'
@@ -143,6 +159,9 @@ const Trade = () => {
     const getStocks = axios.get(allStocks)
     const getHistories = axios.get(allHistory)
 
+    const handleBuystockInput = (e) => {
+        setBuystock(e.target.value)
+    }
 
     useEffect(() => {
         axios.all([getStocks, getHistories])
@@ -164,7 +183,7 @@ const Trade = () => {
             url: 'http://localhost:3000/api/v1/users/2/traders/1/buy_stock',
             data: {
                 symbol: 'AAPL',
-                amount_bought: 20
+                amount_bought: buystock
             }
         })
             .then((res) => {
@@ -176,6 +195,16 @@ const Trade = () => {
 
     const handleSellStock = (e) => {
         e.preventDefault()
+        axios({
+            method: 'patch',
+            url: 'http://localhost:3000/api/v1/users/2/traders/1/sell_stock',
+            data: {
+                symbol: 'AAPL',
+                amount_sold: 1
+            }
+        })
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
     }
 
     return (
@@ -212,7 +241,7 @@ const Trade = () => {
                             </Form.Group>
                             <Form.Group className='mb-3'>
                                 <Form.Label>Amount to buy</Form.Label>
-                                <Form.Control type='text' style={{ width: '70%' }} />
+                                <Form.Control type='text' style={{ width: '70%' }} onChange={handleBuystockInput} value={buystock} />
                             </Form.Group>
                         </FormGroupTwo>
                     </Form>
@@ -264,13 +293,13 @@ const Trade = () => {
                                 </Form.Group>
                             </FormGroupTwo>
                         </Form>
-                        <BuyButton>Sell</BuyButton>
+                        <BuyButton onClick={handleSellStock}>Sell</BuyButton>
                 </SellStock>
             </Tradings>
             <Histories className='history'>
                 <TradesHistory>Trades History</TradesHistory>
-                <ListGroup variant='flush' style={{ width: '85%', margin: '3em 0' }}>
-                    {history.map((val) => {
+                <ListGroup variant='flush' style={{ width: '85%', margin: '1em 0' }}>
+                    {currentTrades.map((val) => {
                         return(
                             <ListGroup.Item key={val.id} style={{ display: 'flex', alignItems: 'center' }}>
                                 <TransactionType className='transaction-type'>{val.transaction_name.toUpperCase()}</TransactionType>
@@ -281,6 +310,7 @@ const Trade = () => {
                         )
                     })}
                 </ListGroup>
+                <Pagination tradesPerPage={tradesPerPage} totalTrades={history.length} paginate={paginate} />
             </Histories>
         </Wrapper>
     )
