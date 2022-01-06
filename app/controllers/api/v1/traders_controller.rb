@@ -81,7 +81,7 @@ module Api
                         if stock.quantity == 0 || stock.quantity < 0
                             stock.destroy
 
-                            render json: { msg: "Sold all owned shares for this stock!"}
+                            render json: { msg: "Sold all owned shares for this stock!", sell_amount: sell_amount, stockval: stock.cash_value}
                         else
                             render json: {trader: trader, stock: stock }
                         end
