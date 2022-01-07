@@ -5,5 +5,5 @@ class Users::SessionsController < DeviseTokenAuth::SessionsController
 
     #     super
     #     render json: { data: @resource.errors }
-    # end
+    end
 end
