@@ -4,7 +4,7 @@ import Chart from 'chart.js/auto'
 import { Line } from 'react-chartjs-2'
 import { Options } from 'styled-icons/evaicons-solid'
 
-const Charts = ({symbol}) => {
+const Charts = () => {
     const [chartData, setChartData] = useState([])
     const [chartDates, setChartDates] = useState([])
     const [chartClose, setChartClose] = useState([])

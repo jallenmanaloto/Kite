@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Auth from '../../Contexts/Auth'
 import axios from 'axios'
+import Charts from './Charts'
 import styled from 'styled-components'
 import Table from 'react-bootstrap/Table'
 import 'stylesheets/application.css'
+
 
 const ChartsContainer = styled.div`
     height: 90%;
@@ -72,13 +74,14 @@ const MyStocks = () => {
         })
             .then((res) => {
                 setAllStocks(res.data.stocks)
+
             })
             .catch(err => console.log(err))
     }, [])
 
     const stockList = allStocks.map((item) => {
         return (
-            <tr>
+            <tr key={item.id}>
                 {/* <StockListImage src={item.company_logo.slice(28, -2)} alt="logo"/> */}
                 <StockListItems style={{ paddingLeft: '1rem', display: 'flex' }}><StockListImage src={item.company_logo.slice(28, -2)} alt="logo" /><p style={{ paddingLeft: '0.4rem' }}>{item.name}</p></StockListItems>
                 <StockListItems>{item.change_percent}</StockListItems>
@@ -109,7 +112,7 @@ const MyStocks = () => {
                 </Table>
             </StockListContainer>
             <ChartsContainer className="charts-container">
-
+                <Charts />
             </ChartsContainer>
 
         </Wrapper>
