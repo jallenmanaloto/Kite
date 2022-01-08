@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Charts from './Charts'
 import MyStocks from './MyStocks'
 import LatestNews from './LatestNews'
+import TopMovers from './TopMovers'
 
 const Wrapper = styled.div`
     position: fixed;
@@ -18,6 +19,7 @@ const Dashboard = () => {
             <Charts />
             <MyStocks />
             <LatestNews />
+            <TopMovers />
         </Wrapper>
     )
 }
