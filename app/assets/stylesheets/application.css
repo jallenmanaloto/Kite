@@ -17,6 +17,12 @@
  @import url('//fonts.googleapis.com/css2?family=Righteous&display=swap');
  @import url('//fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300;500&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ }
+ 
 .nav-dropdown a {
     color: #3E3D3D;
  }
