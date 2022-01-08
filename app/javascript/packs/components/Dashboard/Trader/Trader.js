@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import Auth from '../../Contexts/Auth'
-import MyStocks from './MyStocks'
+import Dashboard from './Dashboard'
 import Header from './Header'
+import MyStocks from './MyStocks'
 import Sidebar from './Sidebar'
 import SearchHeader from './SearchHeader'
 import Trade from './Trade'
@@ -18,7 +19,7 @@ const Trader = () => {
             {searchShow ? <SearchHeader /> : null}
             {traderMain.main === 'wallet' ? <Wallet /> : null }
             {traderMain.main === 'trade' ? <Trade /> : null }
-            {traderMain.main === 'stocks' ? <MyStocks /> : null }
+            {traderMain.main === 'dashboard' ? <Dashboard /> : null }
         </div>
     )
 }
