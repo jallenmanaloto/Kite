@@ -3,14 +3,17 @@ import axios from 'axios'
 import styled from 'styled-components'
 
 const NewsContainer = styled.div`
-    position: relative;
     margin-top: 1rem;
-    margin-left: 4.5em;
-    width: 65%;
+    width: 29%;
     heigth: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
 `
 const NewsHeader = styled.h3`
     position: absolute;
@@ -22,31 +25,29 @@ const NewsHeader = styled.h3`
     left: 2rem;
 `
 const NewsImage = styled.img`
-    height: 23%;
-    width: 75%;
+    height: 5em;
+    width: 14em;
+    margin 1.4rem 0;
 `
 const NewsTitle = styled.h4`
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight; 500;
     font-family: 'Roboto', sans-serif;
     color: #3E3D3D;
-    text-align: center
+    text-align: center;
+    width: 70%;
 `
 const NewsUrl = styled.a`
     font-size: 0.75rem;
     font-family: 'Roboto', sans-serif;
     color: #3E3D3D;
+    margin-bottom: 1rem;
 `
 const Wrapper = styled.div`
-    position: fixed;
-    bottom: 2em;
-    right: 3em;
-    width: 20%;
+    margin-top: 1.2em;
+    margin-left: 2.3em;
+    width: 69%;
     height: 45%;
-    background-color: white;
-    border: 1px solid white;
-    border-radius: 7px;
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
 `
 
 const LatestNews = () => {
@@ -66,7 +67,7 @@ const LatestNews = () => {
             .catch(err => console.log(err))
     }, [news.length])
 
-    const NewsList = news.slice(0, 2).map((item) => {
+    const NewsList = news.slice(0, 3).map((item) => {
         return (
             <NewsContainer>
                 <NewsImage src={item.image} alt="" />
@@ -79,7 +80,7 @@ const LatestNews = () => {
     return (
         <Wrapper>
             <NewsHeader>Recent News</NewsHeader>
-            <div className="news-container" style={{ marginTop: '3rem' }}>
+            <div className="news-container" style={{ marginTop: '3rem', display:'flex', justifyContent: 'space-around' }}>
                 {NewsList}
             </div>
         </Wrapper>
