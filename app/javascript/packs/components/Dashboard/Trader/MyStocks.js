@@ -108,6 +108,12 @@ const MyStocks = () => {
             .catch(err => console.log(err))
     }, [])
 
+    const handleChangeColor = (string) => {
+        if (string.toString().includes('+')) {
+            return true;
+        }
+    }
+
     const stockList = allStocks.map((item) => {
         return (
             <StockItems key={item.id}>
@@ -118,7 +124,7 @@ const MyStocks = () => {
                 </StockCompany>
                 <StockChanges>
                     <StockEquity>{`$${(item.quantity * item.latest_price).toFixed(2)}`}</StockEquity>
-                    <StockChangePercent>{`${item.change_percent}%`}</StockChangePercent>
+                    <StockChangePercent style={{color: `${handleChangeColor(item.change_percent) ? '#1F8C76' : 'red' }`}}>{`${item.change_percent}%`}</StockChangePercent>
                 </StockChanges>
             </StockItems>
         )
