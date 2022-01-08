@@ -197,23 +197,23 @@ const Wallet = () => {
 
     useEffect(() => {
         setBalance(currentUser.total_cash)
-        // axios({
-        //     method: 'post',
-        //     url: 'http://localhost:3000/api/v1/markets/specific_company',
-        //     data: {
-        //         symbol: 'AAPL'
-        //     }
-        // })
-        //     .then((res) => {
-        //         setNews(res.data.news_company)
-        //         setRefresh(refresh + 1)
-        //     })
-        //     .catch(err => console.log(err))
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000/api/v1/markets/specific_company',
+            data: {
+                symbol: 'AAPL'
+            }
+        })
+            .then((res) => {
+                setNews(res.data.news_company)
+                setRefresh(refresh + 1)
+            })
+            .catch(err => console.log(err))
     }, [news.length])
 
     return (
         <Wrapper>
-            {/* <CurrentCash className="current-cash">
+            <CurrentCash className="current-cash">
                 {news.slice(0, 3).map((item) => {
                     console.log(item)
                     return <NewsContainer className="news">
@@ -223,7 +223,7 @@ const Wallet = () => {
                         <NewsUrl href={item.url}>read more..</NewsUrl>
                     </NewsContainer>
                 })}
-            </CurrentCash> */}
+            </CurrentCash>
             <DepositContainer className="deposit">
                 <FormContainer className="form-container">
                     <DepositHead className='deposit-header'>Deposit Money</DepositHead>
