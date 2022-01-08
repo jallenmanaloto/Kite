@@ -66,7 +66,7 @@ const Traders = () => {
         const approveTrader = () => {
             axios({
                 method: 'patch',
-                url: `http://localhost:3000//api/v1/users/${trader.id}/admins/${trader.id}/approve_account`,
+                url: `https://kite-trading.herokuapp.com/api/v1/users/${trader.id}/admins/${trader.id}/approve_account`,
             })
             .then((res) => {
                 setRefresh(refresh + 1)

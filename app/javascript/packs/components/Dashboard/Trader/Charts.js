@@ -31,7 +31,7 @@ const Charts = () => {
     useEffect(() => {
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/v1/markets/specific_company',
+            url: 'https://kite-trading.herokuapp.com/api/v1/markets/specific_company',
             data: {
                 symbol: 'AAPL'
             }

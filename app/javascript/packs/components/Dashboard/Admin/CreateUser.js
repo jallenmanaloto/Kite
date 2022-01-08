@@ -163,7 +163,7 @@ const CreateUser = () => {
     const handleCreateUser = (e) => {
         axios({
             method: 'post',
-            url: 'http://localhost:3000/auth',
+            url: 'https://kite-trading.herokuapp.com/auth',
             data: {
                 user: {
                     name: userName,

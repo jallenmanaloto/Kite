@@ -65,7 +65,7 @@ const TopMovers = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://localhost:3000/index'
+            url: 'https://kite-trading.herokuapp.com/index'
         })
             .then((res) => {
                 setActive(res.data.mostactive.reverse())

@@ -181,7 +181,7 @@ const Wallet = () => {
     const handleCashIn = () => {
         axios({
             method: 'patch',
-            url: 'http://localhost:3000/api/v1/users/2/traders/1/deposit_money', // change to current user's id
+            url: 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/deposit_money', // change to current user's id
             data: {
                 total_cash: deposit
             }
@@ -199,7 +199,7 @@ const Wallet = () => {
         setBalance(currentUser.total_cash)
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/v1/markets/specific_company',
+            url: 'https://kite-trading.herokuapp.com/api/v1/markets/specific_company',
             data: {
                 symbol: 'AAPL'
             }

@@ -128,7 +128,7 @@ const Navbar = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://localhost:3000/api/v1/users'
+            url: 'https://kite-trading.herokuapp.com/api/v1/users'
         })
         .then((res) => {
             setTraders(res.data.trader)
@@ -151,7 +151,7 @@ const Navbar = () => {
     const handleLogout = () => {
         axios({
             method: 'delete',
-            url: 'http://localhost:3000/auth/sign_out',
+            url: 'https://kite-trading.herokuapp.com/auth/sign_out',
             params: {
                 "access-token": currentUser.access_token,
                 client: currentUser.client,

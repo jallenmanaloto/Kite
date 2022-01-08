@@ -173,8 +173,8 @@ const Trade = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
     //setting url for posting multiple requests
-    const allStocks = 'http://localhost:3000/api/v1/users/2/traders/1/all_stocks'
-    const allHistory = 'http://localhost:3000/api/v1/users/2/traders/1/histories'
+    const allStocks = 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/all_stocks'
+    const allHistory = 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/histories'
     const getStocks = axios.get(allStocks)
     const getHistories = axios.get(allHistory)
 
@@ -192,7 +192,7 @@ const Trade = () => {
         e.preventDefault()
         axios({
             method: 'patch',
-            url: 'http://localhost:3000/api/v1/users/2/traders/1/buy_stock',
+            url: 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/buy_stock',
             data: {
                 symbol: 'TSLA',
                 amount_bought: buystock
@@ -229,7 +229,7 @@ const Trade = () => {
         setSearch(e.target.value)
         axios({
             method: 'post',
-            url: 'http://localhost:3000/search',
+            url: 'https://kite-trading.herokuapp.com/search',
             data: {
                 search: search
             }
@@ -243,7 +243,7 @@ const Trade = () => {
         e.preventDefault()
         axios({
             method: 'patch',
-            url: 'http://localhost:3000/api/v1/users/2/traders/1/sell_stock',
+            url: 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/sell_stock',
             data: {
                 symbol: 'AAPL',
                 amount_sold: 1

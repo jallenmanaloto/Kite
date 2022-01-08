@@ -71,7 +71,7 @@ const Header = () => {
     const handleSearch = (e) => {
         axios({
             method: 'post',
-            url: 'http://localhost:3000/search',
+            url: 'https://kite-trading.herokuapp.com/search',
             params: {
                 search: search
             }

@@ -190,7 +190,7 @@ const Login = (setHeaders) => {
         e.preventDefault()
         axios({
             method: 'post',
-            url: 'http://localhost:3000/auth/sign_in',
+            url: 'https://kite-trading.herokuapp.com/auth/sign_in',
             data: {
                 email: email,
                 password: password
