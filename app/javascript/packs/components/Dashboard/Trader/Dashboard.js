@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import Charts from './Charts'
 import MyStocks from './MyStocks'
+import LatestNews from './LatestNews'
 
 const Wrapper = styled.div`
     position: fixed;
@@ -13,7 +15,9 @@ const Wrapper = styled.div`
 const Dashboard = () => {
     return (
         <Wrapper>
+            <Charts />
             <MyStocks />
+            <LatestNews />
         </Wrapper>
     )
 }
