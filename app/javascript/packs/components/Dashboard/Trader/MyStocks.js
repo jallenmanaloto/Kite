@@ -86,7 +86,7 @@ const TableContainer = styled.div`
 const Wrapper = styled.div`
     position: fixed;
     right: 3em;
-    top: 3em;
+    top: 2em;
     height: 40%;
     width: 20%;
 `
