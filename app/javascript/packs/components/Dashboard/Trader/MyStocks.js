@@ -1,65 +1,94 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Auth from '../../Contexts/Auth'
 import axios from 'axios'
-import Charts from './Charts'
 import styled from 'styled-components'
 import Table from 'react-bootstrap/Table'
 import 'stylesheets/application.css'
 
-
-const ChartsContainer = styled.div`
-    height: 90%;
-    width: 44%;
-    background-color: white;
-    border: 1px solid white;
-    border-radius: 7px;
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    margin-top: 3em;
-    margin-right: 1.15em;
+const StockChanges = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    margin-left: 3.5rem;
 `
-const StockListItems = styled.td`
-    list-style-type: none;
+const StockChangePercent = styled.h5`
+    font-size: 0.75rem;
+    font-family: 'Roboto', sans-serif;
+    color: #3E3D3D;
+`
+const StockCompany = styled.div`
+    display: flex;
+    flex-direction: column; 
+    align-items: start;
+    justify-content: center;
+    margin-left: 2rem;
+`
+const StockEquity = styled.h4`
+    font-family: 'Roboto', sans-serif;
+    color: #3E3D3D;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+`
+const StockItems = styled.div`
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    margin-top: 1rem;
+`
+const StockListItems = styled.h4`
     font-family: 'Roboto', sans-serif;
     color: #3E3D3D;
     font-size: 1.15rem;
-    text-align: center;
+    padding: 0;
+    margin: 0;
 `
 const StockListImage = styled.img`
-    height: 1.8rem;
-    width: 1.8rem;
+    height: 2.1rem;
+    width: 2.1rem;
     border-radius: 50%;
+    margin-left: 2rem;
 `
 const StockListContainer = styled.div`
     background-color: white;
     border: 1px solid white;
     border-radius: 7px;
     box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    height: 90%;
-    width: 53%;
-    margin: 3em 1.5em;
+    height: 100%;
+    width: 100%;
+    margin-top: 3em;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
 `
 const StockListHeader = styled.h2`
     font-family: 'Roboto', sans-serif;
+    font-size: 1.7rem;
     color: #3E3D3D;
     margin-top: 1em;
+    padding-left: 2rem;
 `
-const TableHead = styled.th`
-    text-align: center;
+const StockSymbol = styled.h5`
     font-family: 'Roboto', sans-serif;
+    font-size: 0.8rem;    
     color: #3E3D3D;
-    font-weight: 400;
-    
+    padding: 0;
+    margin: 0;
+`
+const TableContainer = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
 `
 const Wrapper = styled.div`
     position: fixed;
-    top: 6vh;
-    left: 13vw;
-    right: 0;
-    bottom: 0;
-    display: flex;
+    right: 3em;
+    top: 3em;
+    height: 40%;
+    width: 20%;
 `
 
 
@@ -81,40 +110,28 @@ const MyStocks = () => {
 
     const stockList = allStocks.map((item) => {
         return (
-            <tr key={item.id}>
-                {/* <StockListImage src={item.company_logo.slice(28, -2)} alt="logo"/> */}
-                <StockListItems style={{ paddingLeft: '1rem', display: 'flex' }}><StockListImage src={item.company_logo.slice(28, -2)} alt="logo" /><p style={{ paddingLeft: '0.4rem' }}>{item.name}</p></StockListItems>
-                <StockListItems>{item.change_percent}</StockListItems>
-                <StockListItems>{`$${item.latest_price}`}</StockListItems>
-                <StockListItems>{item.quantity}</StockListItems>
-                <StockListItems>{`$${(item.quantity * item.latest_price).toFixed(2)}`}</StockListItems>
-            </tr>
+            <StockItems key={item.id}>
+                <StockListImage src={item.company_logo.slice(28, -2)} alt="logo" />
+                <StockCompany>
+                    <StockListItems>{item.name}</StockListItems>
+                    <StockSymbol>{item.symbol}</StockSymbol>
+                </StockCompany>
+                <StockChanges>
+                    <StockEquity>{`$${(item.quantity * item.latest_price).toFixed(2)}`}</StockEquity>
+                    <StockChangePercent>{`${item.change_percent}%`}</StockChangePercent>
+                </StockChanges>
+            </StockItems>
         )
     })
 
     return (
         <Wrapper>
             <StockListContainer className="stock-list-container">
-                <StockListHeader>Owned Stocks</StockListHeader>
-                <Table style={{ marginTop: '2em' }}>
-                    <thead>
-                        <tr>
-                            <TableHead>Company</TableHead>
-                            <TableHead>Change %</TableHead>
-                            <TableHead>Last close</TableHead>
-                            <TableHead>Shares owned</TableHead>
-                            <TableHead>Equity</TableHead>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {stockList}
-                    </tbody>
-                </Table>
+                <StockListHeader>My Stocks</StockListHeader>
+                <TableContainer>
+                    {stockList}
+                </TableContainer>
             </StockListContainer>
-            <ChartsContainer className="charts-container">
-                <Charts />
-            </ChartsContainer>
-
         </Wrapper>
     )
 }
