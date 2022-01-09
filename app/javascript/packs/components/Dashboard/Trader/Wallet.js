@@ -181,7 +181,7 @@ const Wallet = () => {
     const handleCashIn = () => {
         axios({
             method: 'patch',
-            url: 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/deposit_money', // change to current user's id
+            url: `https://kite-trading.herokuapp.com/api/v1/users/${currentUser.id + 1}/traders/${currentUser.id}/deposit_money`,
             data: {
                 total_cash: deposit
             }

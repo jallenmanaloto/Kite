@@ -243,7 +243,7 @@ const Trade = () => {
         e.preventDefault()
         axios({
             method: 'patch',
-            url: 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/sell_stock',
+            url: `https://kite-trading.herokuapp.com/api/v1/users/${currentUser.id + 1}/traders/${currentUser.id}/sell_stock`,
             data: {
                 symbol: 'AAPL',
                 amount_sold: 1

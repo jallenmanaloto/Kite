@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Auth from '../Contexts/Auth'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -173,6 +174,7 @@ const Login = (setHeaders) => {
         email: email,
         password: password
     }
+    let navigate = useNavigate()
 
     const handleEmail = (e) => {
         setEmail(e.target.value)
@@ -207,7 +209,11 @@ const Login = (setHeaders) => {
                     expiry: res.headers.expiry,
                     uid: res.headers.uid
                 })
-                console.log(res)
+                if (res.data.data.role === 'trader') {
+                    navigate('/trader/dashboard')
+                } else {
+                    navigate('/', { replace: true })
+                }
             })
             .catch(err => console.log(err))
     }

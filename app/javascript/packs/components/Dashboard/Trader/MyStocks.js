@@ -99,7 +99,7 @@ const MyStocks = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'https://kite-trading.herokuapp.com/api/v1/users/2/traders/1/all_stocks'
+            url: `https://kite-trading.herokuapp.com/api/v1/users/${currentUser.id + 1}/traders/${currentUser.id}/all_stocks`
         })
             .then((res) => {
                 setAllStocks(res.data.stocks)

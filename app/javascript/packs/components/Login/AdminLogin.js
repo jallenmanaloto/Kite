@@ -190,8 +190,9 @@ const AdminLogin = () => {
                     expiry: res.headers.expiry,
                     uid: res.headers.uid
                 })
-                
-                navigate('/admin/dashboard', { replace: true })
+                if(res.data.data.role === 'admin') {
+                    navigate('/admin/dashboard', { replace: true })
+                }
             })
             .catch(err => console.log(err))
     }
@@ -207,11 +208,11 @@ const AdminLogin = () => {
                 <FormComp className='loginForm' action="">
                     <Field>
                         <Label htmlFor="">Email</Label>
-                        <Textfield onChange={handleEmail} value={email} type="email" name="email" id="" />
+                        <Textfield onChange={handleEmail} value={email} type="email" name="email" id="email" />
                     </Field>
                     <Field>
                         <Label htmlFor="">Password</Label>
-                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="" />
+                        <Textfield onKeyDown={handleKeyDown} onChange={handlePassword} value={password} type="password" name="password" id="password" />
                     </Field>
                     <Options>
                         <Form>

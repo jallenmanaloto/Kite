@@ -15,6 +15,10 @@ const CreateButton = styled.button`
     margin-top: 2rem;
     margin-left: 50%;
     transform: translateX(-50%);
+    :hover {
+        background-color: #2D7264;
+        color: #E1E1E1;
+    }
 `
 
 const Header = styled.h1`
