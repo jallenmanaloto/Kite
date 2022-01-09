@@ -34,5 +34,5 @@ Rails.application.routes.draw do
     end
   end
 
-  # get '*path', to: 'api/v1/users#page', via: :all
+  get '*path', to: 'api/v1/users#page', via: :all
 end
